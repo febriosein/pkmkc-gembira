@@ -37,10 +37,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             audio.playClick();
             onSelectTab('peta');
           }}
-          className="flex items-center gap-2.5 cursor-pointer select-none group"
+          className="flex items-center gap-3 cursor-pointer select-none group"
         >
-          <div className="w-11 h-11 bg-gradient-to-tr from-gempink/20 to-purple-100 rounded-2xl flex items-center justify-center text-2xl shadow-inner animate-float group-hover:scale-105 transition-transform">
-            🎈
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border-2 border-gempurple/20 shadow-md group-hover:scale-105 group-hover:border-gempurple transition-all bg-white flex items-center justify-center p-0.5">
+            <img
+              src="/logo.jpg"
+              alt="Logo GEMBIRA"
+              className="w-full h-full object-contain rounded-xl"
+            />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
