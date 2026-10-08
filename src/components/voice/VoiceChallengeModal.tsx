@@ -227,25 +227,25 @@ export const VoiceChallengeModal: React.FC<VoiceChallengeModalProps> = ({
         </div>
 
         {/* Challenge Stage Body */}
-        <div className="p-5 sm:p-7 flex-1 overflow-y-auto flex flex-col items-center justify-between text-center bg-gradient-to-b from-indigo-50/50 via-white to-purple-50/50">
+        <div className="p-3.5 sm:p-7 flex-1 overflow-y-auto flex flex-col items-center justify-between text-center bg-gradient-to-b from-indigo-50/50 via-white to-purple-50/50">
           {/* Top Companion Mascot with Speech */}
-          <div className="flex items-center gap-2.5 bg-white px-4 py-2 rounded-2xl border-2 border-indigo-200 shadow-sm max-w-md w-full justify-center">
+          <div className="flex items-center gap-2 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl border-2 border-indigo-200 shadow-sm max-w-md w-full justify-center">
             <AvatarDisplay avatar={child.avatar} equipped={child.equipped} size="sm" />
             <div className="text-left text-xs font-bold leading-tight">
               <span className="text-indigo-900 block font-black">{child.nickname} & Sahabat Avatar</span>
-              <span className="text-gray-500 text-[11px]">Latih keberanian berbicara lantang!</span>
+              <span className="text-gray-500 text-[10px] sm:text-[11px]">Latih keberanian berbicara lantang!</span>
             </div>
           </div>
 
           {/* Target Word Hero Display */}
-          <div className="my-4 flex flex-col items-center">
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-white shadow-xl border-4 border-indigo-300 flex items-center justify-center text-6xl sm:text-7xl mb-3 animate-float">
+          <div className="my-2 sm:my-4 flex flex-col items-center">
+            <div className="w-20 h-20 sm:w-32 sm:h-32 rounded-2xl sm:rounded-3xl bg-white shadow-xl border-3 sm:border-4 border-indigo-300 flex items-center justify-center text-5xl sm:text-7xl mb-2 sm:mb-3 animate-float">
               {currentChallenge.emoji}
             </div>
 
-            <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-900 px-3.5 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-indigo-100 text-indigo-900 px-3 sm:px-3.5 py-1 rounded-full text-[11px] sm:text-xs font-black uppercase tracking-wider mb-1.5 sm:mb-2">
               <span>Target Lafal:</span>
-              <span className="text-pink-600 font-black text-sm tracking-widest">{currentChallenge.targetWord}</span>
+              <span className="text-pink-600 font-black text-xs sm:text-sm tracking-widest">{currentChallenge.targetWord}</span>
               <button
                 type="button"
                 onClick={() => audio.speak(currentChallenge.targetWord)}
@@ -256,23 +256,23 @@ export const VoiceChallengeModal: React.FC<VoiceChallengeModalProps> = ({
               </button>
             </div>
 
-            <h3 className="text-lg sm:text-xl font-black text-gemdark max-w-md">
+            <h3 className="text-base sm:text-xl font-black text-gemdark max-w-md">
               "{currentChallenge.prompt}"
             </h3>
 
-            <p className="text-xs text-gray-500 font-medium max-w-sm mt-1">
+            <p className="text-[11px] sm:text-xs text-gray-500 font-medium max-w-sm mt-0.5 sm:mt-1">
               💡 {currentChallenge.funFact}
             </p>
           </div>
 
           {/* Feedback & Recognition Status */}
-          <div className="w-full max-w-md my-2">
+          <div className="w-full max-w-md my-1.5 sm:my-2">
             {statusState === 'listening' && (
-              <div className="bg-indigo-600 text-white p-3.5 rounded-2xl shadow-lg border-2 border-indigo-400 flex items-center justify-center gap-3 animate-pulse">
+              <div className="bg-indigo-600 text-white p-3 sm:p-3.5 rounded-2xl shadow-lg border-2 border-indigo-400 flex items-center justify-center gap-3 animate-pulse">
                 <div className="flex gap-1 items-center">
-                  <span className="w-2 h-5 bg-yellow-300 rounded-full animate-bounce"></span>
-                  <span className="w-2 h-8 bg-yellow-300 rounded-full animate-bounce delay-100"></span>
-                  <span className="w-2 h-4 bg-yellow-300 rounded-full animate-bounce delay-200"></span>
+                  <span className="w-2 h-4 sm:h-5 bg-yellow-300 rounded-full animate-bounce"></span>
+                  <span className="w-2 h-6 sm:h-8 bg-yellow-300 rounded-full animate-bounce delay-100"></span>
+                  <span className="w-2 h-3 sm:h-4 bg-yellow-300 rounded-full animate-bounce delay-200"></span>
                 </div>
                 <span className="font-black text-xs sm:text-sm">
                   Sedang Mendengarkan... Bicara Sekarang!
@@ -281,12 +281,12 @@ export const VoiceChallengeModal: React.FC<VoiceChallengeModalProps> = ({
             )}
 
             {statusState === 'success' && (
-              <div className="bg-emerald-100 text-emerald-800 p-3.5 rounded-2xl border-2 border-emerald-300 shadow-sm animate-in zoom-in-95 duration-200">
-                <div className="flex items-center justify-center gap-2 font-black text-sm mb-1">
+              <div className="bg-emerald-100 text-emerald-800 p-3 sm:p-3.5 rounded-2xl border-2 border-emerald-300 shadow-sm animate-in zoom-in-95 duration-200">
+                <div className="flex items-center justify-center gap-2 font-black text-xs sm:text-sm mb-1">
                   <Award className="w-4 h-4 text-emerald-600" />
                   <span>Pelafalan Tepat Sekali!</span>
                 </div>
-                <p className="text-xs font-semibold leading-relaxed">
+                <p className="text-[11px] sm:text-xs font-semibold leading-relaxed">
                   {feedbackMessage}
                 </p>
                 {heardText && (
@@ -298,8 +298,8 @@ export const VoiceChallengeModal: React.FC<VoiceChallengeModalProps> = ({
             )}
 
             {statusState === 'retry' && (
-              <div className="bg-amber-100 text-amber-900 p-3.5 rounded-2xl border-2 border-amber-300 shadow-sm animate-wiggle">
-                <p className="text-xs font-bold leading-relaxed">
+              <div className="bg-amber-100 text-amber-900 p-3 sm:p-3.5 rounded-2xl border-2 border-amber-300 shadow-sm animate-wiggle">
+                <p className="text-[11px] sm:text-xs font-bold leading-relaxed">
                   {feedbackMessage}
                 </p>
                 <div className="mt-1 flex items-center justify-center gap-2">
@@ -315,18 +315,18 @@ export const VoiceChallengeModal: React.FC<VoiceChallengeModalProps> = ({
             )}
 
             {statusState === 'idle' && (
-              <div className="bg-gray-100 text-gray-600 p-2.5 rounded-2xl border border-gray-200 text-xs font-semibold">
+              <div className="bg-gray-100 text-gray-600 p-2 sm:p-2.5 rounded-2xl border border-gray-200 text-[11px] sm:text-xs font-semibold">
                 Tekan tombol mikrofon di bawah dan katakan <strong>"{currentChallenge.targetWord}"</strong> dengan lantang!
               </div>
             )}
           </div>
 
           {/* Microphone Main Interactive Button */}
-          <div className="my-3 flex flex-col items-center gap-2">
+          <div className="my-2 sm:my-3 flex flex-col items-center gap-1.5 sm:gap-2">
             <button
               type="button"
               onClick={handleStartListening}
-              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center shadow-xl border-4 transition-all gem-btn-press relative ${
+              className={`w-16 h-16 sm:w-24 sm:h-24 rounded-full flex flex-col items-center justify-center shadow-xl border-3 sm:border-4 transition-all gem-btn-press relative ${
                 isListening
                   ? 'bg-gradient-to-tr from-rose-500 to-pink-500 border-white text-white scale-110 shadow-pink-300'
                   : statusState === 'success'
@@ -336,11 +336,11 @@ export const VoiceChallengeModal: React.FC<VoiceChallengeModalProps> = ({
               title={isListening ? 'Hentikan Mikrofon' : 'Mulai Bicara'}
             >
               {isListening ? (
-                <Mic className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce" />
+                <Mic className="w-7 h-7 sm:w-10 sm:h-10 animate-bounce" />
               ) : (
-                <Mic className="w-8 h-8 sm:w-10 sm:h-10" />
+                <Mic className="w-7 h-7 sm:w-10 sm:h-10" />
               )}
-              <span className="text-[9px] font-black uppercase tracking-wider mt-0.5">
+              <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-wider mt-0.5">
                 {isListening ? 'Mendengar' : 'Bicara'}
               </span>
 

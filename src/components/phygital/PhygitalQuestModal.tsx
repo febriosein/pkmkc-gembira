@@ -156,14 +156,14 @@ export const PhygitalQuestModal: React.FC<PhygitalQuestModalProps> = ({
           </div>
 
           {/* Navigation Sub-Tabs: Quests vs Album */}
-          <div className="flex gap-2 mt-4 pt-3 border-t border-white/20">
+          <div className="flex gap-2 mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-white/20 overflow-x-auto pb-0.5">
             <button
               type="button"
               onClick={() => {
                 audio.playClick();
                 setActiveTab('quests');
               }}
-              className={`px-4 py-2 rounded-2xl font-black text-xs transition-all flex items-center gap-2 ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl font-black text-xs transition-all flex items-center gap-1.5 sm:gap-2 flex-shrink-0 ${
                 activeTab === 'quests'
                   ? 'bg-white text-amber-900 shadow-md scale-102'
                   : 'bg-white/20 text-white hover:bg-white/30'
@@ -179,7 +179,7 @@ export const PhygitalQuestModal: React.FC<PhygitalQuestModalProps> = ({
                 audio.playClick();
                 setActiveTab('album');
               }}
-              className={`px-4 py-2 rounded-2xl font-black text-xs transition-all flex items-center gap-2 ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl font-black text-xs transition-all flex items-center gap-1.5 sm:gap-2 flex-shrink-0 ${
                 activeTab === 'album'
                   ? 'bg-white text-amber-900 shadow-md scale-102'
                   : 'bg-white/20 text-white hover:bg-white/30'

@@ -71,14 +71,14 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({
       </div>
 
       {/* Safety notice (UU PDP Safe Leaderboard) */}
-      <div className="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3 flex items-center justify-between text-xs text-emerald-900">
+      <div className="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 text-xs text-emerald-900">
         <div className="flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-gemgreen flex-shrink-0" />
-          <span className="font-semibold">
+          <span className="font-semibold text-[11px] sm:text-xs">
             <strong>Peringkat Ramah Privasi Anak:</strong> Bebas email orang tua. Posisi kamu saat ini: <span className="text-amber-700 font-black">#{currentRank}</span>
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 self-end sm:self-auto flex-shrink-0">
           {onOpenAchievementModal && (
             <button
               type="button"
@@ -86,7 +86,7 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({
                 audio.playClick();
                 onOpenAchievementModal();
               }}
-              className="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-yellow-300 active:scale-95 text-gemdark font-black text-xs transition-all shadow-xs flex items-center gap-1.5 gem-btn-press"
+              className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-yellow-300 active:scale-95 text-gemdark font-black text-xs transition-all shadow-xs flex items-center gap-1.5 gem-btn-press"
             >
               <Award className="w-3.5 h-3.5" />
               <span>Kartu Prestasi</span>
@@ -103,24 +103,24 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({
       </div>
 
       {/* Top 3 Podium Cards */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-4 items-end pt-6 pb-2">
+      <div className="grid grid-cols-3 gap-1.5 xs:gap-2 sm:gap-4 items-end pt-6 pb-2">
         {/* Rank 2 (Silver) */}
         {entries[1] && (
-          <div className="bg-white rounded-3xl p-3 sm:p-5 border-3 border-slate-300 shadow-md text-center flex flex-col items-center gem-card-hover order-1">
-            <div className="w-12 h-12 flex items-center justify-center mb-1">
+          <div className="bg-white rounded-2xl xs:rounded-3xl p-2 xs:p-3 sm:p-5 border-2 xs:border-3 border-slate-300 shadow-md text-center flex flex-col items-center gem-card-hover order-1">
+            <div className="w-10 h-10 xs:w-12 xs:h-12 flex items-center justify-center mb-1">
               <AvatarDisplay
                 avatar={entries[1].avatar}
                 equipped={entries[1].isCurrentChild ? currentChild.equipped : undefined}
                 size="md"
               />
             </div>
-            <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-700 font-black text-xs flex items-center justify-center mb-1">
+            <span className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-slate-200 text-slate-700 font-black text-[10px] xs:text-xs flex items-center justify-center mb-1">
               2
             </span>
-            <span className="font-black text-xs sm:text-sm text-gemdark truncate max-w-full">
+            <span className="font-black text-[10px] xs:text-xs sm:text-sm text-gemdark truncate max-w-full">
               {entries[1].nickname}
             </span>
-            <span className="text-xs sm:text-sm font-black text-amber-600 mt-1">
+            <span className="text-[10px] xs:text-xs sm:text-sm font-black text-amber-600 mt-0.5 xs:mt-1">
               🪙 {entries[1].weeklyCoins}
             </span>
           </div>
@@ -128,46 +128,46 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({
 
         {/* Rank 1 (Gold) */}
         {entries[0] && (
-          <div className="bg-gradient-to-b from-amber-50 to-yellow-100 rounded-3xl p-4 sm:p-6 border-4 border-gemyellow shadow-xl text-center flex flex-col items-center gem-card-hover -translate-y-4 order-2 relative">
-            <div className="absolute -top-4 w-8 h-8 rounded-full bg-yellow-400 text-white flex items-center justify-center shadow-md">
+          <div className="bg-gradient-to-b from-amber-50 to-yellow-100 rounded-2xl xs:rounded-3xl p-2.5 xs:p-4 sm:p-6 border-3 xs:border-4 border-gemyellow shadow-xl text-center flex flex-col items-center gem-card-hover -translate-y-3 sm:-translate-y-4 order-2 relative">
+            <div className="absolute -top-3.5 sm:-top-4 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-yellow-400 text-white flex items-center justify-center text-xs sm:text-sm shadow-md">
               👑
             </div>
-            <div className="w-16 h-16 flex items-center justify-center mb-1 animate-float">
+            <div className="w-12 h-12 xs:w-16 xs:h-16 flex items-center justify-center mb-1 animate-float">
               <AvatarDisplay
                 avatar={entries[0].avatar}
                 equipped={entries[0].isCurrentChild ? currentChild.equipped : undefined}
                 size="lg"
               />
             </div>
-            <span className="w-7 h-7 rounded-full bg-yellow-400 text-white font-black text-xs flex items-center justify-center mb-1 shadow-sm">
+            <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-yellow-400 text-white font-black text-[11px] sm:text-xs flex items-center justify-center mb-1 shadow-sm">
               1
             </span>
-            <span className="font-black text-sm sm:text-base text-gemdark truncate max-w-full">
+            <span className="font-black text-xs xs:text-sm sm:text-base text-gemdark truncate max-w-full">
               {entries[0].nickname}
             </span>
-            <span className="text-sm sm:text-base font-black text-amber-700 mt-1">
-              🪙 {entries[0].weeklyCoins} Koin
+            <span className="text-xs xs:text-sm sm:text-base font-black text-amber-700 mt-0.5 xs:mt-1">
+              🪙 {entries[0].weeklyCoins} <span className="hidden xs:inline">Koin</span>
             </span>
           </div>
         )}
 
         {/* Rank 3 (Bronze) */}
         {entries[2] && (
-          <div className="bg-white rounded-3xl p-3 sm:p-5 border-3 border-amber-600/40 shadow-md text-center flex flex-col items-center gem-card-hover order-3">
-            <div className="w-12 h-12 flex items-center justify-center mb-1">
+          <div className="bg-white rounded-2xl xs:rounded-3xl p-2 xs:p-3 sm:p-5 border-2 xs:border-3 border-amber-600/40 shadow-md text-center flex flex-col items-center gem-card-hover order-3">
+            <div className="w-10 h-10 xs:w-12 xs:h-12 flex items-center justify-center mb-1">
               <AvatarDisplay
                 avatar={entries[2].avatar}
                 equipped={entries[2].isCurrentChild ? currentChild.equipped : undefined}
                 size="md"
               />
             </div>
-            <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 font-black text-xs flex items-center justify-center mb-1">
+            <span className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-amber-100 text-amber-800 font-black text-[10px] xs:text-xs flex items-center justify-center mb-1">
               3
             </span>
-            <span className="font-black text-xs sm:text-sm text-gemdark truncate max-w-full">
+            <span className="font-black text-[10px] xs:text-xs sm:text-sm text-gemdark truncate max-w-full">
               {entries[2].nickname}
             </span>
-            <span className="text-xs sm:text-sm font-black text-amber-600 mt-1">
+            <span className="text-[10px] xs:text-xs sm:text-sm font-black text-amber-600 mt-0.5 xs:mt-1">
               🪙 {entries[2].weeklyCoins}
             </span>
           </div>
@@ -175,8 +175,8 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({
       </div>
 
       {/* Leaderboard Table / List for Ranks 4 to 10 */}
-      <div className="bg-white rounded-3xl p-4 sm:p-6 border-3 border-gray-100 shadow-md space-y-2.5">
-        <div className="text-xs font-black uppercase text-gray-400 px-3 flex justify-between">
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-3 sm:p-6 border-2 sm:border-3 border-gray-100 shadow-md space-y-2 sm:space-y-2.5">
+        <div className="text-[10px] sm:text-xs font-black uppercase text-gray-400 px-2 sm:px-3 flex justify-between">
           <span>Peringkat & Petualang</span>
           <span>Perolehan Koin</span>
         </div>
@@ -188,14 +188,14 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({
           return (
             <div
               key={entry.id}
-              className={`p-3 sm:p-3.5 rounded-2xl flex items-center justify-between transition-all ${
+              className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl flex items-center justify-between gap-2 transition-all ${
                 isMe
                   ? 'bg-purple-50/80 border-2 border-gempurple shadow-sm'
                   : 'bg-gray-50/70 hover:bg-gray-100 border border-gray-100'
               }`}
             >
-              <div className="flex items-center gap-3">
-                <span className={`w-7 h-7 rounded-xl font-black text-xs flex items-center justify-center ${
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <span className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg sm:rounded-xl font-black text-[10px] sm:text-xs flex items-center justify-center flex-shrink-0 ${
                   rank === 1 ? 'bg-yellow-400 text-white' :
                   rank === 2 ? 'bg-slate-300 text-slate-700' :
                   rank === 3 ? 'bg-amber-600 text-white' :
@@ -204,7 +204,7 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({
                   #{rank}
                 </span>
 
-                <div className="w-10 h-10 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-xs overflow-hidden">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-xs overflow-hidden flex-shrink-0">
                   <AvatarDisplay
                     avatar={entry.avatar}
                     equipped={isMe ? currentChild.equipped : undefined}
@@ -212,26 +212,26 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({
                   />
                 </div>
 
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-black text-sm text-gemdark">{entry.nickname}</span>
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                    <span className="font-black text-xs sm:text-sm text-gemdark truncate max-w-[110px] xs:max-w-[160px] sm:max-w-none">{entry.nickname}</span>
                     {isMe && (
-                      <span className="bg-gempurple text-white text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase">
+                      <span className="bg-gempurple text-white text-[8px] sm:text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase">
                         Kamu
                       </span>
                     )}
                   </div>
-                  <span className="text-[10px] text-gray-400 font-semibold">
-                    {entry.totalSessions} sesi petualangan selesai
+                  <span className="text-[9px] sm:text-[10px] text-gray-400 font-semibold truncate block">
+                    {entry.totalSessions} sesi selesai
                   </span>
                 </div>
               </div>
 
-              <div className="text-right">
-                <span className="font-black text-sm text-amber-600 flex items-center gap-1 justify-end">
+              <div className="text-right flex-shrink-0">
+                <span className="font-black text-xs sm:text-sm text-amber-600 flex items-center gap-1 justify-end">
                   🪙 {entry.weeklyCoins}
                 </span>
-                <span className="text-[10px] text-gray-400 font-semibold">Koin Minggu Ini</span>
+                <span className="text-[9px] sm:text-[10px] text-gray-400 font-semibold hidden xs:block">Koin Minggu Ini</span>
               </div>
             </div>
           );

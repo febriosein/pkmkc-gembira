@@ -148,7 +148,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen fun-pattern flex flex-col justify-between pb-20 md:pb-6 text-gemdark">
+    <div className="min-h-screen fun-pattern flex flex-col justify-between pb-28 sm:pb-32 md:pb-8 text-gemdark">
       {/* Top Navbar */}
       <Navbar
         currentTab={currentTab}
@@ -161,18 +161,18 @@ export default function App() {
       />
 
       {/* Main Tab Content Viewport */}
-      <main className="max-w-6xl mx-auto w-full px-4 py-5 flex-1 flex flex-col">
+      <main className="max-w-6xl mx-auto w-full px-3 sm:px-4 py-4 sm:py-5 flex-1 flex flex-col">
         {/* Child greeting banner (shown when not playing a game or module) */}
         {!isPlayingActive && (
-          <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 text-white rounded-3xl p-5 sm:p-6 shadow-xl mb-6 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="relative z-10 flex items-center gap-4 text-center sm:text-left">
+          <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 text-white rounded-3xl p-4 sm:p-6 shadow-xl mb-5 sm:mb-6 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="relative z-10 flex flex-col sm:flex-row items-center gap-3.5 sm:gap-4 text-center sm:text-left w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => {
                   audio.playClick();
                   setIsClosetOpen(true);
                 }}
-                className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-3xl flex items-center justify-center shadow-lg animate-float border-2 border-white/40 group transition-all"
+                className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-lg animate-float border-2 border-white/40 group transition-all flex-shrink-0"
                 title="Buka Lemari Kostum Sahabat"
               >
                 <AvatarDisplay
@@ -183,11 +183,11 @@ export default function App() {
               </button>
               <div>
                 <div className="flex items-center justify-center sm:justify-start gap-2">
-                  <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
+                  <h2 className="text-xl sm:text-3xl font-black tracking-tight">
                     Halo, {activeChild.nickname}! 👋
                   </h2>
                 </div>
-                <p className="text-xs sm:text-sm text-purple-100 font-semibold mt-1 max-w-md">
+                <p className="text-xs sm:text-sm text-purple-100 font-semibold mt-0.5 sm:mt-1 max-w-md">
                   Ayo lanjutkan petualangan bermain sambil belajar hari ini dan rawat sahabatmu!
                 </p>
                 <button
@@ -196,7 +196,7 @@ export default function App() {
                     audio.playClick();
                     setIsClosetOpen(true);
                   }}
-                  className="mt-2.5 px-3 py-1 bg-white/25 hover:bg-white/35 active:scale-95 text-white rounded-xl text-xs font-black inline-flex items-center gap-1.5 border border-white/40 backdrop-blur-md transition-all shadow-sm"
+                  className="mt-2 sm:mt-2.5 px-3 py-1 bg-white/25 hover:bg-white/35 active:scale-95 text-white rounded-xl text-xs font-black inline-flex items-center gap-1.5 border border-white/40 backdrop-blur-md transition-all shadow-sm"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
                   <span>Kamar Sahabat & Lemari (❤️{activeChild.buddyHappiness ?? 80}%)</span>
@@ -204,14 +204,14 @@ export default function App() {
               </div>
             </div>
 
-            <div className="relative z-10 flex items-center gap-3 bg-black/20 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/20">
-              <div className="text-center pr-3 border-r border-white/20">
+            <div className="relative z-10 flex items-center justify-around sm:justify-start gap-3 bg-black/20 backdrop-blur-md px-4 py-2 sm:py-2.5 rounded-2xl border border-white/20 w-full sm:w-auto">
+              <div className="text-center pr-3 border-r border-white/20 flex-1 sm:flex-initial">
                 <span className="block text-[10px] text-purple-200 font-bold uppercase tracking-wider">Koin Saya</span>
-                <span className="text-xl font-black text-yellow-300">🪙 {activeChild.coinsBalance}</span>
+                <span className="text-lg sm:text-xl font-black text-yellow-300">🪙 {activeChild.coinsBalance}</span>
               </div>
-              <div className="text-center pl-1">
+              <div className="text-center pl-1 flex-1 sm:flex-initial">
                 <span className="block text-[10px] text-purple-200 font-bold uppercase tracking-wider">Bintang</span>
-                <span className="text-xl font-black text-amber-300">⭐ {activeChild.starsTotal}</span>
+                <span className="text-lg sm:text-xl font-black text-amber-300">⭐ {activeChild.starsTotal}</span>
               </div>
             </div>
 

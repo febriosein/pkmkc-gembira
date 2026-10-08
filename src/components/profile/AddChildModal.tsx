@@ -38,8 +38,8 @@ export const AddChildModal: React.FC<AddChildModalProps> = ({ isOpen, onClose, o
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-4 border-gemgreen relative">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="bg-white rounded-3xl max-w-md w-full p-4 sm:p-6 shadow-2xl border-4 border-gemgreen relative max-h-[92vh] overflow-y-auto">
         <button
           onClick={() => {
             audio.playClick();

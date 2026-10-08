@@ -266,9 +266,9 @@ export const TangkapBuahGame: React.FC<TangkapBuahGameProps> = ({
       </div>
 
       {/* Main Falling Fruits Canvas */}
-      <div className="flex-1 bg-gradient-to-b from-sky-100 via-emerald-50 to-green-100 rounded-3xl border-4 border-white shadow-xl p-4 flex flex-col justify-between relative overflow-hidden min-h-[460px]">
+      <div className="flex-1 bg-gradient-to-b from-sky-100 via-emerald-50 to-green-100 rounded-2xl sm:rounded-3xl border-3 sm:border-4 border-white shadow-xl p-3 sm:p-4 flex flex-col justify-between relative overflow-hidden min-h-[400px] sm:min-h-[460px]">
         {/* Top Target Equation Banner with voice speaker */}
-        <div className="relative z-10 w-full max-w-sm mx-auto bg-white/95 backdrop-blur-md rounded-2xl p-3 border-2 border-emerald-200 shadow-md text-center">
+        <div className="relative z-10 w-full max-w-sm mx-auto bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border-2 border-emerald-200 shadow-md text-center">
           <div className="flex items-center justify-center gap-1.5 mb-0.5">
             <span className="text-[10px] font-black uppercase text-emerald-700 tracking-wider">Tangkap Buah Berangka:</span>
             <button
@@ -279,20 +279,20 @@ export const TangkapBuahGame: React.FC<TangkapBuahGameProps> = ({
               <Volume2 className="w-3.5 h-3.5" />
             </button>
           </div>
-          <div className="text-3xl font-black text-gemdark tracking-wider">
+          <div className="text-2xl sm:text-3xl font-black text-gemdark tracking-wider">
             {questionText} = <span className="text-emerald-600 underline">?</span>
           </div>
         </div>
 
         {/* 3 Fall Lanes Visualization */}
-        <div className="absolute inset-0 pt-20 pb-20 grid grid-cols-3 pointer-events-none">
+        <div className="absolute inset-0 pt-16 sm:pt-20 pb-20 grid grid-cols-3 pointer-events-none">
           <div className="border-r border-dashed border-emerald-200/60 flex justify-center"></div>
           <div className="border-r border-dashed border-emerald-200/60 flex justify-center"></div>
           <div className="flex justify-center"></div>
         </div>
 
         {/* Falling Fruits rendered by percentage y */}
-        <div className="absolute inset-0 pt-20 pb-24 pointer-events-none">
+        <div className="absolute inset-0 pt-16 sm:pt-20 pb-24 pointer-events-none">
           {fallingFruits.map(fruit => {
             const leftPercent = fruit.lane === 0 ? '16.6%' : fruit.lane === 1 ? '50%' : '83.3%';
             return (
@@ -305,9 +305,9 @@ export const TangkapBuahGame: React.FC<TangkapBuahGameProps> = ({
                   transition: 'top 0.05s linear',
                 }}
               >
-                <div className="w-14 h-14 bg-white/95 border-2 border-amber-300 rounded-2xl flex flex-col items-center justify-center shadow-lg">
-                  <span className="text-2xl leading-none">{fruit.emoji}</span>
-                  <span className="text-sm font-black text-gemdark leading-none mt-0.5">{fruit.value}</span>
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white/95 border-2 border-amber-300 rounded-2xl flex flex-col items-center justify-center shadow-lg">
+                  <span className="text-xl sm:text-2xl leading-none">{fruit.emoji}</span>
+                  <span className="text-xs sm:text-sm font-black text-gemdark leading-none mt-0.5">{fruit.value}</span>
                 </div>
               </div>
             );
@@ -326,9 +326,9 @@ export const TangkapBuahGame: React.FC<TangkapBuahGameProps> = ({
               className="flex justify-center items-end cursor-pointer h-20"
             >
               {basketLane === lane && (
-                <div className="w-24 h-16 bg-amber-700 border-4 border-amber-900 rounded-b-3xl rounded-t-lg flex flex-col items-center justify-center text-white shadow-xl animate-float">
-                  <span className="text-xs font-black uppercase tracking-wider">🧺 Keranjang</span>
-                  <span className="text-lg leading-none">🧺</span>
+                <div className="w-20 h-14 sm:w-24 sm:h-16 bg-amber-700 border-3 sm:border-4 border-amber-900 rounded-b-3xl rounded-t-lg flex flex-col items-center justify-center text-white shadow-xl animate-float">
+                  <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider">🧺 Keranjang</span>
+                  <span className="text-base sm:text-lg leading-none">🧺</span>
                 </div>
               )}
             </div>
@@ -336,7 +336,7 @@ export const TangkapBuahGame: React.FC<TangkapBuahGameProps> = ({
         </div>
 
         {/* Lane Controller Buttons for Touch Devices */}
-        <div className="relative z-20 flex justify-center gap-4 bg-white/80 backdrop-blur-md p-2 rounded-2xl border border-gray-200 max-w-xs mx-auto">
+        <div className="relative z-20 flex justify-center gap-2 sm:gap-4 bg-white/90 backdrop-blur-md p-1.5 sm:p-2 rounded-2xl border border-gray-200 max-w-xs mx-auto w-full">
           <button
             type="button"
             onClick={() => {
@@ -344,7 +344,7 @@ export const TangkapBuahGame: React.FC<TangkapBuahGameProps> = ({
               setBasketLane(prev => (prev > 0 ? (prev - 1) as any : 0));
             }}
             disabled={basketLane === 0}
-            className="flex-1 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-40 text-white font-black text-xs flex items-center justify-center gap-1 shadow-sm active:scale-95"
+            className="flex-1 min-h-[44px] py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-40 text-white font-black text-xs flex items-center justify-center gap-1 shadow-sm active:scale-95"
           >
             <ArrowLeft className="w-4 h-4" /> Kiri
           </button>
@@ -354,7 +354,7 @@ export const TangkapBuahGame: React.FC<TangkapBuahGameProps> = ({
               audio.playClick();
               setBasketLane(1);
             }}
-            className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-black text-xs active:scale-95"
+            className="px-3 sm:px-4 min-h-[44px] py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-black text-xs active:scale-95"
           >
             Tengah
           </button>
@@ -365,7 +365,7 @@ export const TangkapBuahGame: React.FC<TangkapBuahGameProps> = ({
               setBasketLane(prev => (prev < 2 ? (prev + 1) as any : 2));
             }}
             disabled={basketLane === 2}
-            className="flex-1 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-40 text-white font-black text-xs flex items-center justify-center gap-1 shadow-sm active:scale-95"
+            className="flex-1 min-h-[44px] py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 disabled:opacity-40 text-white font-black text-xs flex items-center justify-center gap-1 shadow-sm active:scale-95"
           >
             Kanan <ArrowRight className="w-4 h-4" />
           </button>

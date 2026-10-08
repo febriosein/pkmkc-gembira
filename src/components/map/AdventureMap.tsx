@@ -79,12 +79,12 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
   return (
     <div className="space-y-6 w-full">
       {/* Quick Resume Hero Card */}
-      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white rounded-3xl p-6 sm:p-7 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-5">
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-5">
         <div className="relative z-10 text-center md:text-left">
-          <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-2">
+          <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-1.5 sm:mb-2">
             <Sparkles className="w-3.5 h-3.5 text-yellow-300" /> Peta Petualangan Belajar
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black">
+          <h2 className="text-xl sm:text-3xl font-black">
             Jelajahi Kepulauan Pengetahuan, {child.nickname}!
           </h2>
           <p className="text-xs sm:text-sm text-purple-100 max-w-md mt-1 font-medium">
@@ -93,8 +93,8 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
         </div>
 
         {/* Quick action buttons & companion display */}
-        <div className="relative z-10 flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-          <div className="flex items-center gap-2.5 bg-black/20 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-white/20 w-full sm:w-auto">
+        <div className="relative z-10 flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+          <div className="flex items-center gap-2.5 bg-black/20 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-white/20 w-full sm:w-auto justify-center sm:justify-start">
             <AvatarDisplay avatar={child.avatar} equipped={child.equipped} size="sm" />
             <div className="text-left text-xs font-bold leading-tight">
               <span className="block text-yellow-300 font-black">Sahabat Belajar</span>
@@ -107,7 +107,7 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
               audio.playClick();
               onLaunchGame('letus-balon');
             }}
-            className="w-full sm:w-auto px-6 py-3.5 bg-yellow-400 hover:bg-yellow-300 active:scale-98 text-gemdark font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center justify-center gap-2 gem-btn-press"
+            className="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 bg-yellow-400 hover:bg-yellow-300 active:scale-98 text-gemdark font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center justify-center gap-2 gem-btn-press"
           >
             <Play className="w-4 h-4 fill-gemdark" /> Lanjutkan Main Balon
           </button>
@@ -118,11 +118,11 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
       </div>
 
       {/* Islands Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {islands.map(island => (
           <div
             key={island.id}
-            className={`bg-white rounded-3xl p-6 border-3 ${island.borderColor} shadow-md flex flex-col justify-between gem-card-hover relative overflow-hidden`}
+            className={`bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border-3 ${island.borderColor} shadow-md flex flex-col justify-between gem-card-hover relative overflow-hidden`}
           >
             {/* Top Island Header */}
             <div>

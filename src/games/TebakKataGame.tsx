@@ -238,8 +238,8 @@ export const TebakKataGame: React.FC<TebakKataGameProps> = ({
         </div>
 
         {/* Word Illustration Avatar */}
-        <div className="my-4">
-          <div className="w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-3xl border-4 border-purple-200 flex items-center justify-center text-6xl sm:text-7xl shadow-lg mx-auto animate-float">
+        <div className="my-3 sm:my-4">
+          <div className="w-20 h-20 sm:w-28 sm:h-28 bg-white rounded-2xl sm:rounded-3xl border-3 sm:border-4 border-purple-200 flex items-center justify-center text-5xl sm:text-7xl shadow-lg mx-auto animate-float">
             {currentWord.emoji}
           </div>
           <button
@@ -251,7 +251,7 @@ export const TebakKataGame: React.FC<TebakKataGameProps> = ({
         </div>
 
         {/* Word Display with Missing Letter Box */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 my-4">
+        <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 sm:gap-3 my-3 sm:my-4 max-w-full px-1">
           {currentWord.word.split('').map((char, idx) => {
             const isMissing = idx === missingIndex;
             const isSolved = isMissing && isCorrectFeedback;
@@ -259,9 +259,9 @@ export const TebakKataGame: React.FC<TebakKataGameProps> = ({
             return (
               <div
                 key={idx}
-                className={`w-12 h-14 sm:w-14 sm:h-16 rounded-2xl border-3 flex items-center justify-center font-black text-2xl sm:text-3xl transition-all shadow-md ${
+                className={`w-9 h-11 xs:w-11 xs:h-13 sm:w-14 sm:h-16 rounded-xl sm:rounded-2xl border-2 sm:border-3 flex items-center justify-center font-black text-xl xs:text-2xl sm:text-3xl transition-all shadow-md ${
                   isSolved
-                    ? 'border-gemgreen bg-emerald-100 text-gemgreen scale-110 shadow-lg ring-2 ring-emerald-300'
+                    ? 'border-gemgreen bg-emerald-100 text-gemgreen scale-105 sm:scale-110 shadow-lg ring-2 ring-emerald-300'
                     : isMissing
                     ? 'border-dashed border-gempurple bg-purple-50 text-gempurple animate-pulse'
                     : 'border-gray-200 bg-white text-gemdark'
@@ -280,11 +280,11 @@ export const TebakKataGame: React.FC<TebakKataGameProps> = ({
           }`}>
             {isCorrectFeedback ? (
               <>
-                <CheckCircle className="w-4 h-4" /> Hebat Sekali! Kata Terangkai Lengkap (+10 Koin)
+                <CheckCircle className="w-4 h-4 flex-shrink-0" /> Hebat Sekali! Kata Terangkai Lengkap (+10 Koin)
               </>
             ) : (
               <>
-                <HelpCircle className="w-4 h-4" /> Belum pas, dengarkan bunyinya dan coba huruf lain!
+                <HelpCircle className="w-4 h-4 flex-shrink-0" /> Belum pas, dengarkan bunyinya dan coba huruf lain!
               </>
             )}
           </div>
@@ -293,7 +293,7 @@ export const TebakKataGame: React.FC<TebakKataGameProps> = ({
         {/* Letter Choice Buttons with phonetic sounds */}
         <div className="w-full max-w-md">
           <span className="block text-xs font-bold text-gray-500 mb-2">Sentuh huruf yang tepat untuk melengkapi kata:</span>
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-4 gap-2 sm:gap-3">
             {letterOptions.map((letter, idx) => {
               const isSelected = selectedLetter === letter;
               return (
@@ -301,7 +301,7 @@ export const TebakKataGame: React.FC<TebakKataGameProps> = ({
                   key={idx}
                   onClick={() => handleSelectLetter(letter)}
                   disabled={selectedLetter !== null && isCorrectFeedback === true}
-                  className={`py-3.5 rounded-2xl font-black text-2xl shadow-md border-3 transition-all gem-card-hover gem-btn-press ${
+                  className={`py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl font-black text-xl sm:text-2xl shadow-md border-2 sm:border-3 transition-all gem-card-hover gem-btn-press ${
                     isSelected && isCorrectFeedback
                       ? 'bg-gemgreen border-emerald-600 text-white scale-105'
                       : isSelected && !isCorrectFeedback

@@ -130,48 +130,48 @@ export const ChildLoginView: React.FC<ChildLoginViewProps> = ({ onLoginSuccess }
       <div className="absolute bottom-10 right-10 w-80 h-80 bg-yellow-400/20 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute top-1/2 left-1/4 w-48 h-48 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
 
-      <div className="max-w-2xl w-full bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-yellow-300 text-gemdark relative z-10 my-4">
+      <div className="max-w-2xl w-full bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-8 shadow-2xl border-4 border-yellow-300 text-gemdark relative z-10 my-3 sm:my-4">
         {/* Header Branding */}
-        <div className="flex flex-col items-center text-center mb-6">
-          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl overflow-hidden border-4 border-gempurple/30 shadow-xl mb-3 animate-float bg-white p-1">
+        <div className="flex flex-col items-center text-center mb-4 sm:mb-6">
+          <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl overflow-hidden border-3 sm:border-4 border-gempurple/30 shadow-xl mb-2 sm:mb-3 animate-float bg-white p-1">
             <img
               src="/logo.jpg"
               alt="Logo GEMBIRA"
-              className="w-full h-full object-contain rounded-2xl"
+              className="w-full h-full object-contain rounded-xl sm:rounded-2xl"
             />
           </div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-black text-gemdark tracking-tight">
+            <h1 className="text-xl sm:text-3xl font-black text-gemdark tracking-tight">
               Selamat Datang di <span className="text-gempurple">GEMBIRA</span>!
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-gray-600 font-bold mt-1 max-w-md">
+          <p className="text-[11px] sm:text-sm text-gray-600 font-bold mt-0.5 sm:mt-1 max-w-md">
             Petualangan Belajar Interaktif Ramah Anak Usia Dini & SD
           </p>
         </div>
 
         {/* Live Child ID Card Preview */}
-        <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 rounded-3xl p-4 text-white shadow-lg mb-6 flex items-center justify-between gap-3 border-2 border-white/60">
-          <div className="flex items-center gap-3">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl border-2 border-white/40 flex items-center justify-center text-4xl shadow-md animate-bounce-short">
+        <div className="bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 rounded-2xl sm:rounded-3xl p-3 sm:p-4 text-white shadow-lg mb-4 sm:mb-6 flex items-center justify-between gap-2.5 sm:gap-3 border-2 border-white/60">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/20 backdrop-blur-md rounded-xl sm:rounded-2xl border-2 border-white/40 flex items-center justify-center text-3xl sm:text-4xl shadow-md animate-bounce-short flex-shrink-0">
               {selectedAvatar.emoji}
             </div>
             <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-purple-100 flex items-center gap-1">
+              <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider text-purple-100 flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-yellow-300" /> Kartu Petualang
               </span>
-              <h3 className="text-lg sm:text-xl font-black leading-tight truncate max-w-[180px] sm:max-w-xs">
+              <h3 className="text-base sm:text-xl font-black leading-tight truncate max-w-[130px] xs:max-w-[180px] sm:max-w-xs">
                 {nickname.trim() ? nickname.trim() : 'Petualang Cilik'}
               </h3>
-              <span className="text-[11px] font-bold text-yellow-200">
+              <span className="text-[10px] sm:text-[11px] font-bold text-yellow-200">
                 Sahabat {selectedAvatar.title}
               </span>
             </div>
           </div>
 
-          <div className="bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-2xl border border-white/30 text-right">
-            <span className="block text-[9px] text-purple-100 font-bold uppercase">Hadiah Sambutan</span>
-            <span className="text-xs sm:text-sm font-black text-yellow-300 flex items-center justify-end gap-1">
+          <div className="bg-black/20 backdrop-blur-md px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl sm:rounded-2xl border border-white/30 text-right flex-shrink-0">
+            <span className="block text-[8px] sm:text-[9px] text-purple-100 font-bold uppercase">Hadiah Sambutan</span>
+            <span className="text-[11px] sm:text-sm font-black text-yellow-300 flex items-center justify-end gap-1">
               🪙 +50 Koin
             </span>
           </div>

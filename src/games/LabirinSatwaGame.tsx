@@ -420,7 +420,7 @@ export const LabirinSatwaGame: React.FC<LabirinSatwaGameProps> = ({
         </div>
 
         {/* Maze Board */}
-        <div className={`grid ${gridColsClass} gap-1.5 sm:gap-2 bg-emerald-800/20 p-2.5 sm:p-3 rounded-3xl border-4 border-emerald-700/40 shadow-inner my-auto`}>
+        <div className={`grid ${gridColsClass} gap-1 xs:gap-1.5 sm:gap-2 bg-emerald-800/20 p-2 xs:p-2.5 sm:p-3 rounded-2xl sm:rounded-3xl border-3 sm:border-4 border-emerald-700/40 shadow-inner my-auto`}>
           {currentLevel.grid.map((row, r) =>
             row.map((cell, c) => {
               const isHero = pos.r === r && pos.c === c;
@@ -431,11 +431,11 @@ export const LabirinSatwaGame: React.FC<LabirinSatwaGameProps> = ({
               return (
                 <div
                   key={`${r}-${c}`}
-                  className={`w-11 h-11 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center font-black transition-all shadow-sm select-none ${
+                  className={`w-9 h-9 xs:w-11 xs:h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center font-black transition-all shadow-sm select-none ${
                     isWall
                       ? 'bg-amber-900/80 border-2 border-amber-950 text-amber-200'
                       : isHero
-                      ? 'bg-white border-3 border-emerald-500 ring-4 ring-emerald-300 scale-105'
+                      ? 'bg-white border-2 sm:border-3 border-emerald-500 ring-2 sm:ring-4 ring-emerald-300 scale-105'
                       : isGoal
                       ? 'bg-yellow-200 border-2 border-yellow-400 animate-pulse'
                       : isTrail
@@ -444,13 +444,13 @@ export const LabirinSatwaGame: React.FC<LabirinSatwaGameProps> = ({
                   }`}
                 >
                   {isHero ? (
-                    <span className="text-2xl sm:text-3xl animate-bounce-short">{currentLevel.animal}</span>
+                    <span className="text-xl xs:text-2xl sm:text-3xl animate-bounce-short">{currentLevel.animal}</span>
                   ) : isGoal ? (
-                    <span className="text-2xl sm:text-3xl animate-float">{currentLevel.goalEmoji}</span>
+                    <span className="text-xl xs:text-2xl sm:text-3xl animate-float">{currentLevel.goalEmoji}</span>
                   ) : isWall ? (
-                    <span className="text-lg">🪵</span>
+                    <span className="text-sm xs:text-base sm:text-lg">🪵</span>
                   ) : isTrail ? (
-                    <span className="text-xs opacity-50">🐾</span>
+                    <span className="text-[10px] xs:text-xs opacity-50">🐾</span>
                   ) : null}
                 </div>
               );
@@ -459,35 +459,35 @@ export const LabirinSatwaGame: React.FC<LabirinSatwaGameProps> = ({
         </div>
 
         {/* Direction Controls for Kids */}
-        <div className="flex flex-col items-center gap-1.5 mt-3 select-none">
+        <div className="flex flex-col items-center gap-1.5 mt-2 sm:mt-3 select-none">
           <button
             onClick={() => handleMove(-1, 0)}
-            className="w-14 h-12 rounded-2xl bg-white hover:bg-emerald-100 text-gemdark font-black flex items-center justify-center shadow-md border-2 border-emerald-300 active:scale-95"
+            className="w-13 h-11 xs:w-14 xs:h-12 rounded-xl sm:rounded-2xl bg-white hover:bg-emerald-100 text-gemdark font-black flex items-center justify-center shadow-md border-2 border-emerald-300 active:scale-95"
             title="Atas (Keyboard: W / ↑)"
           >
-            <ArrowUp className="w-6 h-6 text-emerald-700" />
+            <ArrowUp className="w-5 h-5 xs:w-6 xs:h-6 text-emerald-700" />
           </button>
           <div className="flex gap-2">
             <button
               onClick={() => handleMove(0, -1)}
-              className="w-14 h-12 rounded-2xl bg-white hover:bg-emerald-100 text-gemdark font-black flex items-center justify-center shadow-md border-2 border-emerald-300 active:scale-95"
+              className="w-13 h-11 xs:w-14 xs:h-12 rounded-xl sm:rounded-2xl bg-white hover:bg-emerald-100 text-gemdark font-black flex items-center justify-center shadow-md border-2 border-emerald-300 active:scale-95"
               title="Kiri (Keyboard: A / ←)"
             >
-              <ArrowLeft className="w-6 h-6 text-emerald-700" />
+              <ArrowLeft className="w-5 h-5 xs:w-6 xs:h-6 text-emerald-700" />
             </button>
             <button
               onClick={() => handleMove(1, 0)}
-              className="w-14 h-12 rounded-2xl bg-white hover:bg-emerald-100 text-gemdark font-black flex items-center justify-center shadow-md border-2 border-emerald-300 active:scale-95"
+              className="w-13 h-11 xs:w-14 xs:h-12 rounded-xl sm:rounded-2xl bg-white hover:bg-emerald-100 text-gemdark font-black flex items-center justify-center shadow-md border-2 border-emerald-300 active:scale-95"
               title="Bawah (Keyboard: S / ↓)"
             >
-              <ArrowDown className="w-6 h-6 text-emerald-700" />
+              <ArrowDown className="w-5 h-5 xs:w-6 xs:h-6 text-emerald-700" />
             </button>
             <button
               onClick={() => handleMove(0, 1)}
-              className="w-14 h-12 rounded-2xl bg-white hover:bg-emerald-100 text-gemdark font-black flex items-center justify-center shadow-md border-2 border-emerald-300 active:scale-95"
+              className="w-13 h-11 xs:w-14 xs:h-12 rounded-xl sm:rounded-2xl bg-white hover:bg-emerald-100 text-gemdark font-black flex items-center justify-center shadow-md border-2 border-emerald-300 active:scale-95"
               title="Kanan (Keyboard: D / →)"
             >
-              <ArrowRight className="w-6 h-6 text-emerald-700" />
+              <ArrowRight className="w-5 h-5 xs:w-6 xs:h-6 text-emerald-700" />
             </button>
           </div>
         </div>

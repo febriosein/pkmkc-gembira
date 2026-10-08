@@ -184,29 +184,34 @@ export const CocokBayanganGame: React.FC<CocokBayanganGameProps> = ({
     setIsFinished(false);
   };
 
-  const gridColsClass = itemsPerSet === 3 ? 'grid-cols-3' : itemsPerSet === 4 ? 'grid-cols-4' : 'grid-cols-5';
+  const gridColsClass =
+    itemsPerSet === 3
+      ? 'grid-cols-3'
+      : itemsPerSet === 4
+      ? 'grid-cols-2 xs:grid-cols-4'
+      : 'grid-cols-2 xs:grid-cols-3 sm:grid-cols-5';
 
   return (
     <div className="max-w-4xl mx-auto w-full flex-1 flex flex-col justify-between py-2">
       {/* Header Bar */}
-      <div className="bg-white/95 rounded-3xl p-4 border-2 border-amber-300 shadow-md flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
+      <div className="bg-white/95 rounded-3xl p-3.5 sm:p-4 border-2 border-amber-300 shadow-md flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           <button
             onClick={() => {
               audio.playClick();
               onExit();
             }}
-            className="w-9 h-9 rounded-2xl bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-2xl bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center transition-colors flex-shrink-0"
             title="Keluar"
           >
             <X className="w-5 h-5" />
           </button>
           <div>
-            <div className="flex items-center gap-2">
-              <h3 className="font-black text-sm sm:text-base text-gemdark flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <h3 className="font-black text-xs sm:text-base text-gemdark flex items-center gap-1.5">
                 <span>🧩 Cocok Bayangan Ajaib</span>
               </h3>
-              <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${diffInfo.badge}`}>
+              <span className={`text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full ${diffInfo.badge}`}>
                 {diffInfo.label} • ×{multiplier}
               </span>
             </div>
@@ -216,15 +221,15 @@ export const CocokBayanganGame: React.FC<CocokBayanganGameProps> = ({
           </div>
         </div>
 
-        <div className="bg-amber-50 text-amber-900 border border-amber-200 px-3.5 py-1.5 rounded-2xl font-black text-xs flex items-center gap-1.5">
+        <div className="bg-amber-50 text-amber-900 border border-amber-200 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-2xl font-black text-xs flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
           <Sparkles className="w-3.5 h-3.5 text-amber-500" /> {score} Poin
         </div>
       </div>
 
       {/* Main Matching Area */}
-      <div className="flex-1 bg-gradient-to-b from-amber-50 via-orange-50/40 to-yellow-50 rounded-3xl border-4 border-white shadow-xl p-5 sm:p-7 flex flex-col items-center justify-between text-center relative">
-        <div className="bg-white/95 backdrop-blur-md px-5 py-2.5 rounded-2xl border-2 border-amber-200 shadow-sm max-w-md w-full mb-3 flex items-center justify-between">
-          <span className="text-xs font-black uppercase text-amber-700 tracking-wider">
+      <div className="flex-1 bg-gradient-to-b from-amber-50 via-orange-50/40 to-yellow-50 rounded-2xl sm:rounded-3xl border-3 sm:border-4 border-white shadow-xl p-3 sm:p-7 flex flex-col items-center justify-between text-center relative">
+        <div className="bg-white/95 backdrop-blur-md px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl border-2 border-amber-200 shadow-sm max-w-md w-full mb-3 flex items-center justify-between">
+          <span className="text-[11px] sm:text-xs font-black uppercase text-amber-700 tracking-wider">
             {selectedCardId ? '👉 Sekarang Ketuk Bayangan yang Pas!' : '1. Pilih salah satu kartu warna di bawah'}
           </span>
           <button
@@ -237,31 +242,31 @@ export const CocokBayanganGame: React.FC<CocokBayanganGameProps> = ({
         </div>
 
         {/* Top Shadows Target Row */}
-        <div className={`w-full max-w-2xl grid ${gridColsClass} gap-3 sm:gap-4 my-2`}>
+        <div className={`w-full max-w-2xl grid ${gridColsClass} gap-2.5 sm:gap-4 my-2`}>
           {currentSet.map(item => {
             const isMatched = matchedIds.includes(item.id);
             return (
               <div
                 key={item.id}
                 onClick={() => handleMatch(item)}
-                className={`p-3 sm:p-5 rounded-3xl border-4 flex flex-col items-center justify-center transition-all cursor-pointer shadow-md select-none ${
+                className={`p-2.5 sm:p-5 rounded-2xl sm:rounded-3xl border-3 sm:border-4 flex flex-col items-center justify-center transition-all cursor-pointer shadow-md select-none ${
                   isMatched
-                    ? 'bg-amber-100 border-amber-400 ring-4 ring-amber-300 scale-102'
+                    ? 'bg-amber-100 border-amber-400 ring-2 sm:ring-4 ring-amber-300 scale-102'
                     : selectedCardId
                     ? 'bg-gray-800 border-dashed border-amber-400 hover:scale-105 animate-pulse'
                     : 'bg-gray-800 border-gray-600'
                 }`}
               >
                 {isMatched ? (
-                  <div className="text-4xl sm:text-5xl animate-bounce-short">
+                  <div className="text-3xl sm:text-5xl animate-bounce-short">
                     {item.emoji}
                   </div>
                 ) : (
-                  <div className="text-4xl sm:text-5xl filter grayscale brightness-0 opacity-40">
+                  <div className="text-3xl sm:text-5xl filter grayscale brightness-0 opacity-40">
                     {item.emoji}
                   </div>
                 )}
-                <span className={`text-[10px] font-black mt-1.5 uppercase tracking-wider truncate w-full ${
+                <span className={`text-[9px] sm:text-[10px] font-black mt-1 uppercase tracking-wider truncate w-full ${
                   isMatched ? 'text-amber-900' : 'text-gray-400'
                 }`}>
                   {isMatched ? item.name : 'Bayangan ?'}

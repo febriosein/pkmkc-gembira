@@ -32,26 +32,26 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="bg-white/95 backdrop-blur-md border-b-2 border-gempurple/15 sticky top-0 z-40 px-3 sm:px-6 py-2.5 shadow-sm">
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
+    <header className="bg-white/95 backdrop-blur-md border-b-2 border-gempurple/15 sticky top-0 z-40 px-2.5 sm:px-6 py-2 sm:py-2.5 shadow-sm">
+      <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
         {/* Brand identity */}
         <div
           onClick={() => {
             audio.playClick();
             onSelectTab('peta');
           }}
-          className="flex items-center gap-3 cursor-pointer select-none group"
+          className="flex items-center gap-2 sm:gap-3 cursor-pointer select-none group flex-shrink-0"
         >
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl overflow-hidden border-2 border-gempurple/20 shadow-md group-hover:scale-105 group-hover:border-gempurple transition-all bg-white flex items-center justify-center p-0.5">
+          <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl overflow-hidden border-2 border-gempurple/20 shadow-md group-hover:scale-105 group-hover:border-gempurple transition-all bg-white flex items-center justify-center p-0.5">
             <img
               src="/logo.jpg"
               alt="Logo GEMBIRA"
-              className="w-full h-full object-contain rounded-xl"
+              className="w-full h-full object-contain rounded-lg sm:rounded-xl"
             />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-xl font-black text-gemdark tracking-tight">GEMBIRA</span>
+              <span className="text-lg sm:text-xl font-black text-gemdark tracking-tight">GEMBIRA</span>
               <span className="hidden sm:inline-block bg-gempink text-white text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase">
                 v1.0
               </span>
@@ -86,12 +86,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right side controls: Coins, Audio Mute, Child Profile */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
           {/* Audio toggle button */}
           <button
             type="button"
             onClick={onToggleMute}
-            className={`w-9 h-9 rounded-2xl flex items-center justify-center transition-all ${
+            className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all ${
               isMuted
                 ? 'bg-gray-100 text-gray-400 hover:bg-gray-200'
                 : 'bg-emerald-50 text-gemgreen hover:bg-emerald-100 border border-emerald-200'
@@ -102,8 +102,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {/* Live Coin balance badge */}
-          <div className="bg-gradient-to-r from-amber-50 to-yellow-100 border-2 border-gemyellow/80 text-amber-900 px-3 py-1.5 rounded-2xl font-black text-xs flex items-center gap-1.5 shadow-sm">
-            <span className="text-base leading-none">🪙</span>
+          <div className="bg-gradient-to-r from-amber-50 to-yellow-100 border-2 border-gemyellow/80 text-amber-900 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl sm:rounded-2xl font-black text-[11px] sm:text-xs flex items-center gap-1 sm:gap-1.5 shadow-sm">
+            <span className="text-sm sm:text-base leading-none">🪙</span>
             <span>{activeChild.coinsBalance}</span>
           </div>
 
@@ -114,10 +114,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               audio.playClick();
               onOpenClosetModal();
             }}
-            className="flex items-center gap-2 pl-2 pr-3 py-1 bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 border-2 border-pink-300 rounded-2xl transition-all text-left gem-card-hover"
+            className="flex items-center gap-1.5 sm:gap-2 p-1 sm:pl-2 sm:pr-3 sm:py-1 bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 border-2 border-pink-300 rounded-xl sm:rounded-2xl transition-all text-left gem-card-hover"
             title="Buka Ruang Sahabat & Lemari Aksesoris"
           >
-            <div className="w-8 h-8 rounded-xl bg-white flex items-center justify-center shadow-sm border border-pink-200 relative overflow-hidden">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-white flex items-center justify-center shadow-sm border border-pink-200 relative overflow-hidden flex-shrink-0">
               <AvatarDisplay
                 avatar={activeChild.avatar}
                 equipped={activeChild.equipped}
@@ -142,14 +142,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               audio.playClick();
               onOpenProfileModal();
             }}
-            className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 border-2 border-gray-200 rounded-2xl transition-all text-left gem-card-hover"
+            className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-gray-100 hover:bg-gray-200 border-2 border-gray-200 rounded-xl sm:rounded-2xl transition-all text-left gem-card-hover"
             title="Ganti Profil Anak"
           >
             <div className="leading-tight">
-              <span className="block font-black text-xs text-gemdark max-w-[85px] truncate">
+              <span className="block font-black text-xs text-gemdark max-w-[55px] xs:max-w-[75px] sm:max-w-[85px] truncate">
                 {activeChild.nickname}
               </span>
-              <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">
+              <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider hidden sm:block">
                 Ganti Profil
               </span>
             </div>

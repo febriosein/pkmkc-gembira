@@ -147,28 +147,28 @@ export const AvatarClosetModal: React.FC<AvatarClosetModalProps> = ({
         </div>
 
         {/* Companion Stage Preview & Tamagotchi Care */}
-        <div className="p-4 sm:p-5 bg-gradient-to-b from-purple-50 via-pink-50/50 to-amber-50/40 border-b-2 border-purple-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="p-3.5 sm:p-5 bg-gradient-to-b from-purple-50 via-pink-50/50 to-amber-50/40 border-b-2 border-purple-100 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
           {/* Avatar Stage */}
           <div className="flex flex-col items-center">
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-white border-4 border-purple-200 shadow-xl flex items-center justify-center relative group p-2">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-2xl sm:rounded-3xl bg-white border-3 sm:border-4 border-purple-200 shadow-xl flex items-center justify-center relative group p-1.5 sm:p-2">
               <AvatarDisplay
                 avatar={child.avatar}
                 equipped={child.equipped}
                 size="xl"
                 onClick={handlePetBuddy}
               />
-              <span className="absolute -bottom-2.5 bg-yellow-400 text-gemdark text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider flex items-center gap-1">
+              <span className="absolute -bottom-2.5 bg-yellow-400 text-gemdark text-[8px] sm:text-[9px] font-black px-2 sm:px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider flex items-center gap-1">
                 <Heart className="w-2.5 h-2.5 fill-red-500 text-red-500" /> Ketuk untuk Elus
               </span>
             </div>
           </div>
 
           {/* Avatar Speech Bubble & Tamagotchi Happiness Meter */}
-          <div className="flex-1 w-full space-y-3">
+          <div className="flex-1 w-full space-y-2 sm:space-y-3">
             {/* Speech bubble */}
-            <div className="bg-white rounded-2xl p-3 border-2 border-purple-200 shadow-sm relative">
+            <div className="bg-white rounded-xl sm:rounded-2xl p-2.5 sm:p-3 border-2 border-purple-200 shadow-sm relative">
               <div className="flex items-start gap-2">
-                <span className="text-xl">💬</span>
+                <span className="text-lg sm:text-xl">💬</span>
                 <p className="text-xs sm:text-sm font-bold text-gray-700 leading-snug">
                   "{activeSpeech}"
                 </p>
@@ -177,7 +177,7 @@ export const AvatarClosetModal: React.FC<AvatarClosetModalProps> = ({
             </div>
 
             {/* Love / Happiness Meter */}
-            <div className="bg-white/90 p-3 rounded-2xl border border-pink-200 shadow-xs flex items-center justify-between gap-3">
+            <div className="bg-white/90 p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border border-pink-200 shadow-xs flex items-center justify-between gap-2.5 sm:gap-3">
               <div className="flex-1">
                 <div className="flex justify-between items-center text-[10px] font-black text-gray-600 mb-1">
                   <span className="flex items-center gap-1 text-pink-600">
@@ -196,7 +196,7 @@ export const AvatarClosetModal: React.FC<AvatarClosetModalProps> = ({
               <button
                 type="button"
                 onClick={handlePetBuddy}
-                className="px-3 py-1.5 bg-pink-500 hover:bg-pink-600 active:scale-95 text-white font-black text-xs rounded-xl shadow-xs transition-all flex items-center gap-1"
+                className="px-2.5 sm:px-3 py-1.5 bg-pink-500 hover:bg-pink-600 active:scale-95 text-white font-black text-xs rounded-xl shadow-xs transition-all flex items-center gap-1 flex-shrink-0"
                 title="Beri Kasih Sayang"
               >
                 <Heart className="w-3.5 h-3.5 fill-white" /> Sayangi ❤️

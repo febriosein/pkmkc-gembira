@@ -103,32 +103,32 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
   return (
     <div className="space-y-6 w-full max-w-5xl mx-auto">
       {/* Top Header Card */}
-      <div className="bg-white rounded-3xl p-6 border-3 border-gempurple/30 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-4 text-center md:text-left">
-          <div className="w-16 h-16 rounded-3xl bg-purple-100 text-gempurple flex items-center justify-center text-3xl shadow-inner border-2 border-purple-200">
-            <ShieldCheck className="w-9 h-9 text-gempurple" />
+      <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-3 border-gempurple/30 shadow-md flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-center sm:text-left">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl bg-purple-100 text-gempurple flex items-center justify-center text-2xl sm:text-3xl shadow-inner border-2 border-purple-200 flex-shrink-0">
+            <ShieldCheck className="w-8 h-8 sm:w-9 sm:h-9 text-gempurple" />
           </div>
           <div>
-            <div className="flex items-center gap-2 justify-center md:justify-start">
-              <h2 className="text-2xl font-black text-gemdark">Dashboard Orang Tua & Wali</h2>
-              <span className="bg-purple-100 text-gempurple text-[10px] font-black px-2 py-0.5 rounded-full">
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
+              <h2 className="text-xl sm:text-2xl font-black text-gemdark">Dashboard Orang Tua & Wali</h2>
+              <span className="bg-purple-100 text-gempurple text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full">
                 Terverifikasi
               </span>
             </div>
-            <p className="text-xs text-gray-500 font-semibold mt-0.5">
+            <p className="text-[11px] sm:text-xs text-gray-500 font-semibold mt-0.5">
               Analisis akurasi riil profil <strong className="text-gemdark">{child.nickname}</strong> ({child.ageBand.toUpperCase()}). Email: {parent.email}
             </p>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full md:w-auto">
           <button
             type="button"
             onClick={() => {
               audio.playClick();
               if (onOpenAchievementModal) onOpenAchievementModal();
             }}
-            className="px-4 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 active:scale-95 text-white font-black rounded-2xl text-xs transition-all shadow-md flex items-center gap-1.5 gem-btn-press"
+            className="w-full sm:w-auto px-4 py-2.5 sm:py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 active:scale-95 text-white font-black rounded-xl sm:rounded-2xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5 gem-btn-press"
           >
             <Award className="w-4 h-4 text-yellow-100" /> Cetak Kartu Prestasi Juara
           </button>
@@ -138,7 +138,7 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
               audio.playClick();
               onLockParentMode();
             }}
-            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-black rounded-2xl text-xs transition-colors flex items-center gap-1.5"
+            className="w-full sm:w-auto px-4 py-2.5 sm:py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-black rounded-xl sm:rounded-2xl text-xs transition-colors flex items-center justify-center gap-1.5"
             title="Kunci kembali sesi orang tua"
           >
             <Lock className="w-4 h-4 text-gray-500" /> Kunci Sesi Ortu

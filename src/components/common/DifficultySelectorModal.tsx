@@ -71,31 +71,31 @@ export const DifficultySelectorModal: React.FC<DifficultySelectorModalProps> = (
   ];
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border-4 border-gempurple relative">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="bg-white rounded-3xl max-w-lg w-full p-4 sm:p-7 shadow-2xl border-4 border-gempurple relative max-h-[92vh] overflow-y-auto">
         <button
           onClick={() => {
             audio.playClick();
             onClose();
           }}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full p-1.5 transition-colors"
+          className="absolute top-3.5 sm:top-4 right-3.5 sm:right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full p-1.5 transition-colors"
           title="Tutup"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="text-center mb-5">
-          <div className="w-16 h-16 bg-purple-100 text-gempurple rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-inner mb-2 animate-float">
+        <div className="text-center mb-4 sm:mb-5">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 bg-purple-100 text-gempurple rounded-2xl sm:rounded-3xl mx-auto flex items-center justify-center text-3xl sm:text-4xl shadow-inner mb-2 animate-float">
             {itemEmoji}
           </div>
-          <h3 className="text-2xl font-black text-gemdark">{title}</h3>
-          <p className="text-xs text-gray-500 font-semibold mt-0.5">
+          <h3 className="text-xl sm:text-2xl font-black text-gemdark">{title}</h3>
+          <p className="text-[11px] sm:text-xs text-gray-500 font-semibold mt-0.5">
             Pilih tingkat tantangan bermain untuk menyesuaikan materi dan hadiah koin.
           </p>
         </div>
 
         {/* Level Cards */}
-        <div className="space-y-3 mb-4">
+        <div className="space-y-2.5 sm:space-y-3 mb-2">
           {levels.map(lvl => {
             const isRecommended = defaultDifficulty === lvl.id;
             return (
@@ -105,14 +105,14 @@ export const DifficultySelectorModal: React.FC<DifficultySelectorModalProps> = (
                   audio.playClick();
                   onSelectDifficulty(lvl.id);
                 }}
-                className={`p-4 rounded-2xl border-3 flex items-center justify-between cursor-pointer transition-all gem-card-hover ${lvl.borderColor} bg-white hover:bg-purple-50/50 ${
+                className={`p-3 sm:p-4 rounded-2xl border-2 sm:border-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 cursor-pointer transition-all gem-card-hover ${lvl.borderColor} bg-white hover:bg-purple-50/50 ${
                   isRecommended ? 'ring-2 ring-gempurple shadow-md' : 'shadow-xs'
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">{lvl.icon}</span>
+                <div className="flex items-start sm:items-center gap-2.5 sm:gap-3">
+                  <span className="text-2xl flex-shrink-0 mt-0.5 sm:mt-0">{lvl.icon}</span>
                   <div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <h4 className="font-black text-sm text-gemdark">{lvl.title}</h4>
                       {isRecommended && (
                         <span className="bg-gempurple text-white text-[9px] font-black px-2 py-0.5 rounded-full flex items-center gap-0.5">
@@ -127,7 +127,7 @@ export const DifficultySelectorModal: React.FC<DifficultySelectorModalProps> = (
                   </div>
                 </div>
 
-                <div className="text-right flex flex-col items-end gap-1.5">
+                <div className="flex items-center justify-between sm:justify-end sm:flex-col sm:items-end gap-1.5 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-gray-100 flex-shrink-0">
                   <span className={`text-[10px] font-black px-2 py-0.5 rounded-full ${lvl.badgeColor}`}>
                     {lvl.multiplier}
                   </span>

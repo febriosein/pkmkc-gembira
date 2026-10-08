@@ -42,8 +42,8 @@ export const ResultSummaryModal: React.FC<ResultSummaryModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border-4 border-gemyellow text-center relative">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="bg-white rounded-3xl max-w-sm w-full p-4 sm:p-6 shadow-2xl border-4 border-gemyellow text-center relative max-h-[92vh] overflow-y-auto">
         {/* Celebration Trophy Icon */}
         <div className="w-16 h-16 bg-amber-100 text-amber-700 rounded-3xl mx-auto flex items-center justify-center text-3xl shadow-inner mb-3 animate-float border-2 border-amber-300">
           <Trophy className="w-9 h-9 text-amber-600" />

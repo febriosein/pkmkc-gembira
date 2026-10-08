@@ -144,22 +144,22 @@ export const GameArenaList: React.FC<GameArenaListProps> = ({
       </div>
 
       {/* PKM-KC Voice Challenge Feature Banner */}
-      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-3xl p-5 sm:p-6 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border-2 border-white/20">
-        <div className="flex items-center gap-3.5 text-center sm:text-left">
-          <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl shadow-inner border border-white/30 animate-float flex-shrink-0">
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border-2 border-white/20">
+        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-3.5 text-center sm:text-left">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl sm:text-3xl shadow-inner border border-white/30 animate-float flex-shrink-0">
             🎙️
           </div>
           <div>
             <div className="flex items-center justify-center sm:justify-start gap-1.5 mb-1">
-              <span className="bg-yellow-400 text-gemdark text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+              <span className="bg-yellow-400 text-gemdark text-[9px] sm:text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
                 Inovasi Baru PKM-KC
               </span>
-              <span className="text-xs text-purple-200 font-bold">10 Tantangan Lafal</span>
+              <span className="text-[11px] sm:text-xs text-purple-200 font-bold">10 Tantangan Lafal</span>
             </div>
             <h4 className="text-lg sm:text-xl font-black">
               Tantangan Suara Sahabat Cilik
             </h4>
-            <p className="text-xs text-purple-100 font-medium max-w-md mt-0.5">
+            <p className="text-[11px] sm:text-xs text-purple-100 font-medium max-w-md mt-0.5">
               Latih keberanian berbicara lantang: sebutkan nama satwa, angka, dan budi pekerti langsung ke mikrofon untuk dapat koin bintang!
             </p>
           </div>
@@ -171,7 +171,7 @@ export const GameArenaList: React.FC<GameArenaListProps> = ({
             audio.playClick();
             if (onOpenVoiceChallenge) onOpenVoiceChallenge();
           }}
-          className="px-5 py-3 bg-yellow-400 hover:bg-yellow-300 active:scale-95 text-gemdark font-black text-xs sm:text-sm rounded-2xl shadow-lg transition-all flex items-center gap-2 gem-btn-press flex-shrink-0"
+          className="w-full sm:w-auto px-5 py-3 bg-yellow-400 hover:bg-yellow-300 active:scale-95 text-gemdark font-black text-xs sm:text-sm rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 gem-btn-press flex-shrink-0"
         >
           <Mic className="w-4 h-4 fill-gemdark" />
           <span>Mulai Ucapkan Suara! 🗣️</span>
@@ -179,7 +179,7 @@ export const GameArenaList: React.FC<GameArenaListProps> = ({
       </div>
 
       {/* Category Filter Pills */}
-      <div className="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
+      <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 max-w-2xl mx-auto">
         {categories.map(cat => {
           const isActive = activeCategory === cat.id;
           return (
@@ -189,7 +189,7 @@ export const GameArenaList: React.FC<GameArenaListProps> = ({
                 audio.playClick();
                 setActiveCategory(cat.id);
               }}
-              className={`px-4 py-2 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all gem-btn-press ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-black flex items-center gap-1 sm:gap-1.5 transition-all gem-btn-press ${
                 isActive
                   ? 'bg-gempurple text-white shadow-md scale-102 ring-2 ring-gempurple/20'
                   : 'bg-white hover:bg-gray-100 text-gray-600 border border-gray-200'
@@ -203,11 +203,11 @@ export const GameArenaList: React.FC<GameArenaListProps> = ({
       </div>
 
       {/* Grid of 6 Games */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         {filteredGames.map(game => (
           <div
             key={game.id}
-            className={`bg-white rounded-3xl p-5 border-3 ${game.borderColor} shadow-md flex flex-col justify-between gem-card-hover relative`}
+            className={`bg-white rounded-2xl sm:rounded-3xl p-5 border-3 ${game.borderColor} shadow-md flex flex-col justify-between gem-card-hover relative`}
           >
             <div>
               {/* Top Row: Emoji Icon + Age Badge */}

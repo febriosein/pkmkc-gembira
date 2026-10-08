@@ -280,7 +280,7 @@ export const AchievementCardModal: React.FC<AchievementCardModalProps> = ({
         </div>
 
         {/* Certificate Visual Preview Canvas */}
-        <div className="p-4 sm:p-8 overflow-y-auto flex-1 bg-amber-50/50 flex flex-col items-center">
+        <div className="p-3 sm:p-8 overflow-y-auto flex-1 bg-amber-50/50 flex flex-col items-center">
           {downloadSuccess && (
             <div className="w-full max-w-2xl bg-emerald-100 border border-emerald-300 text-emerald-800 p-3 rounded-2xl text-xs font-black text-center mb-4 animate-in fade-in">
               🎉 Sertifikat berhasil diunduh ke perangkat Anda! Silakan simpan dan bagikan kepada keluarga tercinta!
@@ -290,20 +290,20 @@ export const AchievementCardModal: React.FC<AchievementCardModalProps> = ({
           {/* Printable Visual Certificate Frame */}
           <div
             ref={cardRef}
-            className="w-full max-w-3xl bg-gradient-to-b from-amber-50/70 via-white to-yellow-50/60 rounded-3xl p-6 sm:p-10 border-8 border-double border-amber-400 shadow-xl relative text-center"
+            className="w-full max-w-3xl bg-gradient-to-b from-amber-50/70 via-white to-yellow-50/60 rounded-2xl sm:rounded-3xl p-4 sm:p-10 border-4 sm:border-8 border-double border-amber-400 shadow-xl relative text-center"
           >
             {/* Top Official Banner */}
-            <div className="mb-4">
-              <span className="text-[11px] font-black text-purple-700 tracking-wider uppercase block">
+            <div className="mb-3 sm:mb-4">
+              <span className="text-[10px] sm:text-[11px] font-black text-purple-700 tracking-wider uppercase block">
                 Program Kreativitas Mahasiswa - Karsa Cipta (PKM-KC 2026)
               </span>
-              <span className="text-[10px] text-gray-400 font-bold block mt-0.5">
+              <span className="text-[9px] sm:text-[10px] text-gray-400 font-bold block mt-0.5">
                 No. Registrasi: {certNumber}
               </span>
             </div>
 
             {/* Certificate Header */}
-            <h1 className="text-2xl sm:text-4xl font-black text-gemdark tracking-tight mb-1">
+            <h1 className="text-xl sm:text-4xl font-black text-gemdark tracking-tight mb-1">
               SERTIFIKAT PRESTASI PETUALANG CILIK
             </h1>
             <p className="text-xs sm:text-sm text-gray-500 italic mb-6">
@@ -420,17 +420,17 @@ export const AchievementCardModal: React.FC<AchievementCardModalProps> = ({
         </div>
 
         {/* Bottom Download Action Bar */}
-        <div className="p-4 bg-white border-t border-gray-200 flex items-center justify-between no-print">
-          <div className="flex items-center gap-2 text-xs text-gray-500">
-            <Sparkles className="w-4 h-4 text-amber-500" />
-            <span>Format berkas: <strong>Gambar PNG Resolusi Tinggi (1200 × 820 px)</strong></span>
+        <div className="p-3.5 sm:p-4 bg-white border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3 no-print">
+          <div className="flex items-center gap-2 text-[11px] sm:text-xs text-gray-500 text-center sm:text-left">
+            <Sparkles className="w-4 h-4 text-amber-500 flex-shrink-0" />
+            <span>Format berkas: <strong>Gambar PNG (1200 × 820 px)</strong></span>
           </div>
 
           <button
             type="button"
             onClick={handleDownloadPng}
             disabled={isGenerating}
-            className="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-xs rounded-2xl shadow-md transition-all flex items-center gap-2 gem-btn-press"
+            className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-black text-xs rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 gem-btn-press"
           >
             <Download className="w-4 h-4" />
             <span>Unduh Sekarang (.PNG)</span>

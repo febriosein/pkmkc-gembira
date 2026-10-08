@@ -95,8 +95,8 @@ export const ParentGateModal: React.FC<ParentGateModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border-4 border-gempurple relative text-center">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="bg-white rounded-3xl max-w-sm w-full p-4 sm:p-6 shadow-2xl border-4 border-gempurple relative text-center max-h-[92vh] overflow-y-auto">
         {/* Close button */}
         <button
           onClick={() => {

@@ -9,6 +9,14 @@
     background-size: 30px 30px;
     background-position: 0 0, 15px 15px;
   }
+  .pb-safe {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+html, body {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Custom smooth scrollbar */

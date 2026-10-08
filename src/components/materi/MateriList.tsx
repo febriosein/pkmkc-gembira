@@ -28,12 +28,12 @@ export const MateriList: React.FC<MateriListProps> = ({ onSelectModule }) => {
         {MODULES_CATALOG.map(item => (
           <div
             key={item.id}
-            className={`bg-white rounded-3xl p-5 border-3 ${item.borderColor} shadow-md flex flex-col justify-between gem-card-hover relative`}
+            className={`bg-white rounded-2xl sm:rounded-3xl p-5 border-3 ${item.borderColor} shadow-md flex flex-col justify-between gem-card-hover relative`}
           >
             <div>
               {/* Top Row: Icon + Module Number */}
               <div className="flex items-center justify-between mb-3">
-                <div className={`w-13 h-13 w-12 h-12 rounded-2xl bg-gradient-to-tr ${item.color} text-white flex items-center justify-center text-2xl shadow-md animate-float`}>
+                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${item.color} text-white flex items-center justify-center text-2xl shadow-md animate-float`}>
                   {item.icon}
                 </div>
                 <span className={`text-[10px] font-black px-2.5 py-1 rounded-full ${item.badgeColor} uppercase tracking-wider`}>

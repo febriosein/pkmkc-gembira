@@ -244,19 +244,19 @@ export const OrkestraMusikGame: React.FC<OrkestraMusikGameProps> = ({
       </div>
 
       {/* Main Musical Xylophone Area */}
-      <div className="flex-1 bg-gradient-to-b from-purple-100 via-indigo-50 to-pink-100 rounded-3xl border-4 border-white shadow-xl p-6 sm:p-8 flex flex-col items-center justify-between text-center relative">
+      <div className="flex-1 bg-gradient-to-b from-purple-100 via-indigo-50 to-pink-100 rounded-2xl sm:rounded-3xl border-3 sm:border-4 border-white shadow-xl p-3 xs:p-4 sm:p-8 flex flex-col items-center justify-between text-center relative">
         {/* Status prompt */}
-        <div className="bg-white/95 backdrop-blur-md px-5 py-3 rounded-2xl border-2 border-indigo-100 shadow-sm max-w-md w-full mb-4">
-          <div className="text-xs font-black uppercase text-indigo-600 mb-0.5">
+        <div className="bg-white/95 backdrop-blur-md px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-2xl border-2 border-indigo-100 shadow-sm max-w-md w-full mb-3 sm:mb-4">
+          <div className="text-[11px] sm:text-xs font-black uppercase text-indigo-600 mb-0.5">
             {isPlayingSeq ? '🎧 Dengarkan & Ingat Nada...' : '👉 Sekarang Giliranmu Menirukan!'}
           </div>
-          <p className="text-xs text-gray-600 font-semibold">
+          <p className="text-[11px] sm:text-xs text-gray-600 font-semibold">
             {isPlayingSeq ? 'Perhatikan tuts satwa yang menyala' : `Tekan tuts sesuai urutan (${playerStep}/${sequence.length})`}
           </p>
         </div>
 
         {/* 5 Xylophone Keys */}
-        <div className="w-full max-w-xl grid grid-cols-5 gap-2 sm:gap-4 my-auto h-64 sm:h-72 items-end">
+        <div className="w-full max-w-xl grid grid-cols-5 gap-1.5 xs:gap-2 sm:gap-4 my-auto h-48 xs:h-56 sm:h-72 items-end">
           {XYLOPHONE_KEYS.map((keyItem) => {
             const isActive = activeKeyId === keyItem.id;
             return (
@@ -265,19 +265,19 @@ export const OrkestraMusikGame: React.FC<OrkestraMusikGameProps> = ({
                 type="button"
                 onClick={() => handleKeyPress(keyItem)}
                 disabled={isPlayingSeq}
-                className={`h-full rounded-3xl flex flex-col items-center justify-between p-3 text-white font-black shadow-xl border-4 transition-all select-none cursor-pointer gem-btn-press ${
+                className={`h-full rounded-2xl sm:rounded-3xl flex flex-col items-center justify-between p-1.5 xs:p-2 sm:p-3 text-white font-black shadow-lg sm:shadow-xl border-2 sm:border-4 transition-all select-none cursor-pointer gem-btn-press ${
                   keyItem.color
                 } ${isActive ? keyItem.activeColor : 'hover:-translate-y-2'}`}
               >
                 {/* Animal Emoji Avatar */}
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/30 backdrop-blur-md rounded-2xl flex items-center justify-center text-2xl sm:text-3xl shadow-inner mt-2">
+                <div className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 bg-white/30 backdrop-blur-md rounded-xl sm:rounded-2xl flex items-center justify-center text-xl xs:text-2xl sm:text-3xl shadow-inner mt-1 sm:mt-2">
                   {keyItem.animal}
                 </div>
 
                 {/* Musical Note Title */}
-                <div className="mb-2">
-                  <span className="block text-xl sm:text-2xl font-black drop-shadow-sm">{keyItem.note}</span>
-                  <span className="text-[10px] font-bold opacity-80 hidden sm:block">{keyItem.name.split(' ')[0]}</span>
+                <div className="mb-1 sm:mb-2">
+                  <span className="block text-base xs:text-xl sm:text-2xl font-black drop-shadow-sm">{keyItem.note}</span>
+                  <span className="text-[9px] sm:text-[10px] font-bold opacity-80 hidden sm:block">{keyItem.name.split(' ')[0]}</span>
                 </div>
               </button>
             );

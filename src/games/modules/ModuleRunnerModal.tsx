@@ -237,15 +237,15 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
       </div>
 
       {/* Main Question Card */}
-      <div className={`flex-1 ${module.bgLight} rounded-3xl border-4 border-white shadow-xl p-6 sm:p-8 flex flex-col items-center justify-between text-center relative`}>
+      <div className={`flex-1 ${module.bgLight} rounded-2xl sm:rounded-3xl border-3 sm:border-4 border-white shadow-xl p-4 sm:p-8 flex flex-col items-center justify-between text-center relative`}>
         {/* Media / Visual Illustration Area */}
         {currentQuestion.media && (
-          <div className="my-2">
-            <div className="w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-3xl border-3 border-purple-200 flex items-center justify-center text-5xl sm:text-6xl shadow-md mx-auto animate-float">
+          <div className="my-1.5 sm:my-2">
+            <div className="w-20 h-20 sm:w-28 sm:h-28 bg-white rounded-2xl sm:rounded-3xl border-2 sm:border-3 border-purple-200 flex items-center justify-center text-4xl sm:text-6xl shadow-md mx-auto animate-float">
               {currentQuestion.media.value.length <= 4 ? currentQuestion.media.value : module.icon}
             </div>
             {currentQuestion.media.value.length > 4 && (
-              <div className="mt-2 text-xs font-black text-gemdark bg-white/80 px-3 py-1 rounded-full border border-gray-200 inline-block">
+              <div className="mt-1.5 text-xs font-black text-gemdark bg-white/80 px-3 py-0.5 rounded-full border border-gray-200 inline-block">
                 {currentQuestion.media.value}
               </div>
             )}
@@ -253,18 +253,18 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
         )}
 
         {/* Prompt with speaker button */}
-        <div className="bg-white/95 backdrop-blur-md px-5 py-4 rounded-3xl border-2 border-gray-200 shadow-sm max-w-lg w-full my-3">
-          <div className="flex items-center justify-center gap-2 mb-1">
-            <span className="text-xs font-black uppercase text-gray-500 tracking-wider">Pertanyaan Belajar:</span>
+        <div className="bg-white/95 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 rounded-2xl sm:rounded-3xl border-2 border-gray-200 shadow-sm max-w-lg w-full my-2 sm:my-3">
+          <div className="flex items-center justify-center gap-1.5 mb-0.5 sm:mb-1">
+            <span className="text-[10px] sm:text-xs font-black uppercase text-gray-500 tracking-wider">Pertanyaan Belajar:</span>
             <button
               onClick={() => audio.speak(currentQuestion.speechText)}
               className="p-1 rounded-full bg-purple-50 hover:bg-purple-100 text-gempurple transition-colors"
               title="Dengarkan Pertanyaan"
             >
-              <Volume2 className="w-4 h-4" />
+              <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           </div>
-          <h4 className="text-base sm:text-lg font-black text-gemdark leading-snug">
+          <h4 className="text-sm sm:text-lg font-black text-gemdark leading-snug">
             {currentQuestion.prompt}
           </h4>
         </div>
@@ -305,7 +305,7 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
         )}
 
         {/* Options grid */}
-        <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-3 gap-3 my-2">
+        <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 my-2">
           {currentQuestion.options.map(opt => {
             const isSelected = selectedOptionId === opt.id;
             const isEliminated = eliminatedIds.includes(opt.id);
@@ -314,7 +314,7 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
                 key={opt.id}
                 onClick={() => !isEliminated && handleSelectOption(opt)}
                 disabled={(selectedOptionId !== null && isAnswerCorrect === true) || isEliminated}
-                className={`p-4 rounded-2xl border-3 font-black text-sm flex flex-col items-center justify-center gap-1.5 transition-all gem-card-hover gem-btn-press shadow-sm ${
+                className={`p-3 sm:p-4 rounded-2xl border-2 sm:border-3 font-black text-xs sm:text-sm min-h-[50px] flex flex-col items-center justify-center gap-1 sm:gap-1.5 transition-all gem-card-hover gem-btn-press shadow-sm ${
                   isEliminated
                     ? 'border-gray-200 bg-gray-100 text-gray-400 opacity-40 cursor-not-allowed line-through'
                     : isSelected && isAnswerCorrect
@@ -324,7 +324,7 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
                     : 'border-gray-200 bg-white hover:border-gempurple hover:bg-purple-50 text-gemdark'
                 }`}
               >
-                {opt.emoji && <span className="text-2xl">{opt.emoji}</span>}
+                {opt.emoji && <span className="text-xl sm:text-2xl">{opt.emoji}</span>}
                 <span>{opt.label}</span>
                 {isEliminated && (
                   <span className="text-[10px] text-gray-400 font-bold">Dieliminasi sahabat 🪄</span>

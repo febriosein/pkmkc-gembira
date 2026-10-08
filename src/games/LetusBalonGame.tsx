@@ -303,34 +303,34 @@ export const LetusBalonGame: React.FC<LetusBalonGameProps> = ({
       </div>
 
       {/* Main Balloon Arena */}
-      <div className="flex-1 bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 rounded-3xl border-4 border-white shadow-xl p-6 flex flex-col items-center justify-between relative overflow-hidden min-h-[440px]">
+      <div className="flex-1 bg-gradient-to-b from-sky-100 via-sky-50 to-emerald-50 rounded-2xl sm:rounded-3xl border-3 sm:border-4 border-white shadow-xl p-3 xs:p-4 sm:p-6 flex flex-col items-center justify-between relative overflow-hidden min-h-[390px] sm:min-h-[440px]">
         {/* Floating clouds in background */}
-        <div className="absolute top-4 left-6 text-3xl opacity-40 select-none animate-float">☁️</div>
-        <div className="absolute top-10 right-10 text-4xl opacity-35 select-none animate-float" style={{ animationDelay: '1.5s' }}>☁️</div>
+        <div className="absolute top-4 left-6 text-2xl sm:text-3xl opacity-40 select-none animate-float">☁️</div>
+        <div className="absolute top-10 right-10 text-3xl sm:text-4xl opacity-35 select-none animate-float" style={{ animationDelay: '1.5s' }}>☁️</div>
 
         {/* Streak banner */}
         {comboBanner && (
-          <div className="absolute top-3 z-20 bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-xs px-4 py-1.5 rounded-full shadow-lg animate-bounce-short flex items-center gap-1.5">
-            <Flame className="w-4 h-4 text-yellow-200" /> {comboBanner}
+          <div className="absolute top-2.5 sm:top-3 z-20 bg-gradient-to-r from-amber-400 to-orange-500 text-white font-black text-[11px] sm:text-xs px-3 sm:px-4 py-1 sm:py-1.5 rounded-full shadow-lg animate-bounce-short flex items-center gap-1.5">
+            <Flame className="w-3.5 h-3.5 text-yellow-200" /> {comboBanner}
           </div>
         )}
 
         {/* Math Question Banner with Indonesian voice speaker */}
-        <div className="relative z-10 w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl p-4 sm:p-5 border-3 border-purple-200 shadow-lg text-center mt-2">
-          <div className="flex items-center justify-center gap-2 mb-1">
-            <span className="text-xs font-black uppercase text-purple-600 tracking-wider">Hitung Soal Berikut:</span>
+        <div className="relative z-10 w-full max-w-md bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border-2 sm:border-3 border-purple-200 shadow-lg text-center mt-1 sm:mt-2">
+          <div className="flex items-center justify-center gap-2 mb-0.5 sm:mb-1">
+            <span className="text-[11px] sm:text-xs font-black uppercase text-purple-600 tracking-wider">Hitung Soal Berikut:</span>
             <button
               onClick={() => audio.speak(currentQuestion.speechText)}
               className="p-1 rounded-full bg-purple-100 hover:bg-purple-200 text-gempurple transition-colors"
               title="Dengarkan Soal"
             >
-              <Volume2 className="w-4 h-4" />
+              <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           </div>
-          <div className="text-4xl sm:text-5xl font-black text-gemdark tracking-wider py-1">
+          <div className="text-3xl sm:text-5xl font-black text-gemdark tracking-wider py-0.5 sm:py-1">
             {currentQuestion.expression} = ?
           </div>
-          <p className="text-xs text-gray-500 font-semibold mt-1">Pilih balon dengan jawaban yang benar!</p>
+          <p className="text-[11px] sm:text-xs text-gray-500 font-semibold mt-0.5 sm:mt-1">Pilih balon dengan jawaban yang benar!</p>
         </div>
 
         {/* Dynamic Scaffolding & Growth Mindset Buddy Banner */}
@@ -349,7 +349,7 @@ export const LetusBalonGame: React.FC<LetusBalonGameProps> = ({
         )}
 
         {/* Four floating balloons to pop */}
-        <div className="relative z-10 w-full max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 my-6">
+        <div className="relative z-10 w-full max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-3 xs:gap-4 sm:gap-6 my-4 sm:my-6">
           {currentQuestion.options.map((val, idx) => {
             const color = getBalloonColor(idx);
             const isPopped = poppedIndex === idx;
@@ -362,7 +362,7 @@ export const LetusBalonGame: React.FC<LetusBalonGameProps> = ({
                   type="button"
                   onClick={() => !isEliminated && handleSelectOption(val, idx)}
                   disabled={isPopped || isEliminated}
-                  className={`w-28 h-36 sm:w-32 sm:h-40 rounded-[50%/60%_60%_40%_40%] flex flex-col items-center justify-center font-black shadow-xl border-4 transition-all gem-card-hover select-none relative ${color.bg} ${color.border} ${color.text} ${
+                  className={`w-24 h-32 xs:w-28 xs:h-36 sm:w-32 sm:h-40 rounded-[50%/60%_60%_40%_40%] flex flex-col items-center justify-center font-black shadow-xl border-3 sm:border-4 transition-all gem-card-hover select-none relative ${color.bg} ${color.border} ${color.text} ${
                     isPopped
                       ? 'scale-0 opacity-0 duration-300'
                       : isEliminated
@@ -372,10 +372,10 @@ export const LetusBalonGame: React.FC<LetusBalonGameProps> = ({
                   style={{ animationDelay: `${idx * 0.4}s` }}
                 >
                   {/* Balloon reflection shine */}
-                  <span className="absolute top-3 left-4 w-4 h-7 bg-white/35 rounded-full rotate-[-25deg] pointer-events-none"></span>
+                  <span className="absolute top-2.5 sm:top-3 left-3 sm:left-4 w-3 sm:w-4 h-5 sm:h-7 bg-white/35 rounded-full rotate-[-25deg] pointer-events-none"></span>
                   
                   {/* Answer Number */}
-                  <span className="relative z-10 text-3xl sm:text-4xl drop-shadow-sm">{val}</span>
+                  <span className="relative z-10 text-2xl sm:text-4xl drop-shadow-sm">{val}</span>
 
                   {/* PAUD visual assistance dots (if val <= 8) */}
                   {val > 0 && val <= 8 && child.ageBand === 'paud' && (
@@ -387,10 +387,10 @@ export const LetusBalonGame: React.FC<LetusBalonGameProps> = ({
                   )}
                   
                   {/* Balloon knot */}
-                  <span className={`absolute -bottom-2 w-4 h-3 rounded-full ${color.bg} border-2 ${color.border}`}></span>
+                  <span className={`absolute -bottom-2 w-3.5 sm:w-4 h-2.5 sm:h-3 rounded-full ${color.bg} border-2 ${color.border}`}></span>
                 </button>
                 {/* Balloon string */}
-                <div className="w-0.5 h-10 bg-gray-400/80 mt-1"></div>
+                <div className="w-0.5 h-6 sm:h-10 bg-gray-400/80 mt-1"></div>
               </div>
             );
           })}
