@@ -17,6 +17,12 @@ import { MateriList } from './components/materi/MateriList';
 import { ModuleRunnerModal } from './games/modules/ModuleRunnerModal';
 import { ParentDashboard } from './components/parent/ParentDashboard';
 import { WeeklyLeaderboard } from './components/leaderboard/WeeklyLeaderboard';
+import { AvatarDisplay } from './components/avatar/AvatarDisplay';
+import { AvatarClosetModal } from './components/avatar/AvatarClosetModal';
+import { PhygitalQuestModal } from './components/phygital/PhygitalQuestModal';
+import { VoiceChallengeModal } from './components/voice/VoiceChallengeModal';
+import { AchievementCardModal } from './components/parent/AchievementCardModal';
+import { Sparkles } from 'lucide-react';
 import { ChildProfile, NavigationTab, GameId, DifficultyLevel } from './types';
 import { ModuleItem } from './data/modulesData';
 import { storage } from './services/storage';
@@ -49,6 +55,10 @@ export default function App() {
   const [pendingLaunch, setPendingLaunch] = useState<LaunchTarget | null>(null);
 
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isClosetOpen, setIsClosetOpen] = useState(false);
+  const [isPhygitalModalOpen, setIsPhygitalModalOpen] = useState(false);
+  const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
+  const [isAchievementModalOpen, setIsAchievementModalOpen] = useState(false);
   const [isParentGateOpen, setIsParentGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [isMuted, setIsMuted] = useState(() => audio.getIsMuted());
@@ -145,6 +155,7 @@ export default function App() {
         onSelectTab={handleSelectTab}
         activeChild={activeChild}
         onOpenProfileModal={() => setIsProfileModalOpen(true)}
+        onOpenClosetModal={() => setIsClosetOpen(true)}
         isMuted={isMuted}
         onToggleMute={handleToggleMute}
       />
@@ -155,9 +166,21 @@ export default function App() {
         {!isPlayingActive && (
           <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 text-white rounded-3xl p-5 sm:p-6 shadow-xl mb-6 relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="relative z-10 flex items-center gap-4 text-center sm:text-left">
-              <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center text-4xl sm:text-5xl shadow-lg animate-float border-2 border-white/40">
-                {activeChild.avatar}
-              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  audio.playClick();
+                  setIsClosetOpen(true);
+                }}
+                className="w-16 h-16 sm:w-20 sm:h-20 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-3xl flex items-center justify-center shadow-lg animate-float border-2 border-white/40 group transition-all"
+                title="Buka Lemari Kostum Sahabat"
+              >
+                <AvatarDisplay
+                  avatar={activeChild.avatar}
+                  equipped={activeChild.equipped}
+                  size="lg"
+                />
+              </button>
               <div>
                 <div className="flex items-center justify-center sm:justify-start gap-2">
                   <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
@@ -165,8 +188,19 @@ export default function App() {
                   </h2>
                 </div>
                 <p className="text-xs sm:text-sm text-purple-100 font-semibold mt-1 max-w-md">
-                  Ayo lanjutkan petualangan bermain sambil belajar hari ini dan kumpulkan koin bintang sebanyak-banyaknya!
+                  Ayo lanjutkan petualangan bermain sambil belajar hari ini dan rawat sahabatmu!
                 </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    audio.playClick();
+                    setIsClosetOpen(true);
+                  }}
+                  className="mt-2.5 px-3 py-1 bg-white/25 hover:bg-white/35 active:scale-95 text-white rounded-xl text-xs font-black inline-flex items-center gap-1.5 border border-white/40 backdrop-blur-md transition-all shadow-sm"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
+                  <span>Kamar Sahabat & Lemari (❤️{activeChild.buddyHappiness ?? 80}%)</span>
+                </button>
               </div>
             </div>
 
@@ -261,11 +295,15 @@ export default function App() {
                 child={activeChild}
                 onLaunchGame={handleRequestLaunchGame}
                 onGoToMateri={() => setCurrentTab('materi')}
+                onOpenPhygitalQuests={() => setIsPhygitalModalOpen(true)}
               />
             )}
 
             {currentTab === 'game' && (
-              <GameArenaList onSelectGame={handleRequestLaunchGame} />
+              <GameArenaList
+                onSelectGame={handleRequestLaunchGame}
+                onOpenVoiceChallenge={() => setIsVoiceModalOpen(true)}
+              />
             )}
 
             {currentTab === 'materi' && (
@@ -273,7 +311,10 @@ export default function App() {
             )}
 
             {currentTab === 'leaderboard' && (
-              <WeeklyLeaderboard currentChild={activeChild} />
+              <WeeklyLeaderboard
+                currentChild={activeChild}
+                onOpenAchievementModal={() => setIsAchievementModalOpen(true)}
+              />
             )}
 
             {currentTab === 'ortu' && (
@@ -284,6 +325,7 @@ export default function App() {
                   setCurrentTab('peta');
                 }}
                 onChildUpdated={(c) => setActiveChild(c)}
+                onOpenAchievementModal={() => setIsAchievementModalOpen(true)}
               />
             )}
           </>
@@ -302,6 +344,33 @@ export default function App() {
         activeChild={activeChild}
         onSelectChild={handleChildChanged}
         onLogout={handleLogout}
+      />
+
+      <AvatarClosetModal
+        isOpen={isClosetOpen}
+        onClose={() => setIsClosetOpen(false)}
+        child={activeChild}
+        onChildUpdated={handleChildChanged}
+      />
+
+      <PhygitalQuestModal
+        isOpen={isPhygitalModalOpen}
+        onClose={() => setIsPhygitalModalOpen(false)}
+        child={activeChild}
+        onChildUpdated={handleChildChanged}
+      />
+
+      <VoiceChallengeModal
+        isOpen={isVoiceModalOpen}
+        child={activeChild}
+        onClose={() => setIsVoiceModalOpen(false)}
+        onChildUpdated={handleChildChanged}
+      />
+
+      <AchievementCardModal
+        isOpen={isAchievementModalOpen}
+        child={activeChild}
+        onClose={() => setIsAchievementModalOpen(false)}
       />
 
       <ParentGateModal

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Trophy, ShieldCheck, RefreshCw } from 'lucide-react';
+import { Trophy, ShieldCheck, RefreshCw, Award } from 'lucide-react';
 import { ChildProfile, LeaderboardEntry } from '../../types';
 import { audio } from '../../services/audio';
+import { AvatarDisplay } from '../avatar/AvatarDisplay';
 
 interface WeeklyLeaderboardProps {
   currentChild: ChildProfile;
+  onOpenAchievementModal?: () => void;
 }
 
 // Seed mock top learners for healthy gamification
@@ -18,7 +20,10 @@ const INITIAL_LEADERBOARD_ENTRIES: LeaderboardEntry[] = [
   { id: 'lb-7', nickname: 'Mikael Bintang', avatar: '🦄', weeklyCoins: 95, totalSessions: 4 },
 ];
 
-export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({ currentChild }) => {
+export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({
+  currentChild,
+  onOpenAchievementModal,
+}) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Combine mock leaderboard with current child dynamically
@@ -73,13 +78,28 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({ currentChi
             <strong>Peringkat Ramah Privasi Anak:</strong> Bebas email orang tua. Posisi kamu saat ini: <span className="text-amber-700 font-black">#{currentRank}</span>
           </span>
         </div>
-        <button
-          onClick={handleRefresh}
-          className="p-1.5 rounded-xl bg-white hover:bg-emerald-100 text-gemgreen transition-colors"
-          title="Segarkan Peringkat"
-        >
-          <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
-        </button>
+        <div className="flex items-center gap-2">
+          {onOpenAchievementModal && (
+            <button
+              type="button"
+              onClick={() => {
+                audio.playClick();
+                onOpenAchievementModal();
+              }}
+              className="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-yellow-300 active:scale-95 text-gemdark font-black text-xs transition-all shadow-xs flex items-center gap-1.5 gem-btn-press"
+            >
+              <Award className="w-3.5 h-3.5" />
+              <span>Kartu Prestasi</span>
+            </button>
+          )}
+          <button
+            onClick={handleRefresh}
+            className="p-1.5 rounded-xl bg-white hover:bg-emerald-100 text-gemgreen transition-colors"
+            title="Segarkan Peringkat"
+          >
+            <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+          </button>
+        </div>
       </div>
 
       {/* Top 3 Podium Cards */}
@@ -87,7 +107,13 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({ currentChi
         {/* Rank 2 (Silver) */}
         {entries[1] && (
           <div className="bg-white rounded-3xl p-3 sm:p-5 border-3 border-slate-300 shadow-md text-center flex flex-col items-center gem-card-hover order-1">
-            <span className="text-2xl sm:text-3xl mb-1">{entries[1].avatar}</span>
+            <div className="w-12 h-12 flex items-center justify-center mb-1">
+              <AvatarDisplay
+                avatar={entries[1].avatar}
+                equipped={entries[1].isCurrentChild ? currentChild.equipped : undefined}
+                size="md"
+              />
+            </div>
             <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-700 font-black text-xs flex items-center justify-center mb-1">
               2
             </span>
@@ -106,7 +132,13 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({ currentChi
             <div className="absolute -top-4 w-8 h-8 rounded-full bg-yellow-400 text-white flex items-center justify-center shadow-md">
               👑
             </div>
-            <span className="text-3xl sm:text-4xl mb-1 animate-float">{entries[0].avatar}</span>
+            <div className="w-16 h-16 flex items-center justify-center mb-1 animate-float">
+              <AvatarDisplay
+                avatar={entries[0].avatar}
+                equipped={entries[0].isCurrentChild ? currentChild.equipped : undefined}
+                size="lg"
+              />
+            </div>
             <span className="w-7 h-7 rounded-full bg-yellow-400 text-white font-black text-xs flex items-center justify-center mb-1 shadow-sm">
               1
             </span>
@@ -122,7 +154,13 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({ currentChi
         {/* Rank 3 (Bronze) */}
         {entries[2] && (
           <div className="bg-white rounded-3xl p-3 sm:p-5 border-3 border-amber-600/40 shadow-md text-center flex flex-col items-center gem-card-hover order-3">
-            <span className="text-2xl sm:text-3xl mb-1">{entries[2].avatar}</span>
+            <div className="w-12 h-12 flex items-center justify-center mb-1">
+              <AvatarDisplay
+                avatar={entries[2].avatar}
+                equipped={entries[2].isCurrentChild ? currentChild.equipped : undefined}
+                size="md"
+              />
+            </div>
             <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 font-black text-xs flex items-center justify-center mb-1">
               3
             </span>
@@ -166,8 +204,12 @@ export const WeeklyLeaderboard: React.FC<WeeklyLeaderboardProps> = ({ currentChi
                   #{rank}
                 </span>
 
-                <div className="w-10 h-10 rounded-2xl bg-white border border-gray-200 flex items-center justify-center text-xl shadow-xs">
-                  {entry.avatar}
+                <div className="w-10 h-10 rounded-2xl bg-white border border-gray-200 flex items-center justify-center shadow-xs overflow-hidden">
+                  <AvatarDisplay
+                    avatar={entry.avatar}
+                    equipped={isMe ? currentChild.equipped : undefined}
+                    size="sm"
+                  />
                 </div>
 
                 <div>

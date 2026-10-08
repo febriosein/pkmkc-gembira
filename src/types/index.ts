@@ -26,6 +26,23 @@ export type GameId =
 
 export type NavigationTab = 'peta' | 'game' | 'materi' | 'leaderboard' | 'ortu';
 
+export interface EquippedAccessories {
+  hat?: string;
+  glasses?: string;
+  badge?: string;
+  aura?: string;
+}
+
+export interface AccessoryItem {
+  id: string;
+  category: 'hat' | 'glasses' | 'badge' | 'aura';
+  name: string;
+  icon: string;
+  price: number;
+  description: string;
+  rarity: 'biasa' | 'langka' | 'legendaris';
+}
+
 export interface ChildProfile {
   id: string;
   parentId: string;
@@ -38,6 +55,9 @@ export interface ChildProfile {
   createdAt: string;
   starsTotal: number;
   lastPlayedAt?: string;
+  equipped?: EquippedAccessories;
+  ownedItemIds?: string[];
+  buddyHappiness?: number; // 0 - 100 Tamagotchi-style Happiness meter
 }
 
 export interface ParentAccount {
@@ -135,4 +155,37 @@ export interface LeaderboardEntry {
   weeklyCoins: number;
   totalSessions: number;
   isCurrentChild?: boolean;
+}
+
+export type PhygitalCategory = 'eksplorasi' | 'kebaikan' | 'kesehatan' | 'numerasi_nyata' | 'kreativitas';
+
+export interface PhygitalQuest {
+  id: string;
+  title: string;
+  category: PhygitalCategory;
+  emoji: string;
+  difficulty: 'mudah' | 'sedang' | 'menantang';
+  description: string;
+  actionPrompt: string;
+  parentGuidance: string;
+  rewardCoins: number;
+  happinessBonus: number;
+  badgeReward: {
+    name: string;
+    icon: string;
+  };
+}
+
+export interface CompletedPhygitalQuest {
+  id: string;
+  childId: string;
+  questId: string;
+  questTitle: string;
+  category: PhygitalCategory;
+  badgeName: string;
+  badgeIcon: string;
+  rewardCoins: number;
+  completedAt: string;
+  verifiedByParent: boolean;
+  parentNote?: string;
 }

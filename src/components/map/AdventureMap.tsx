@@ -2,17 +2,20 @@ import React from 'react';
 import { Play, Sparkles, Star, ArrowRight } from 'lucide-react';
 import { ChildProfile, GameId } from '../../types';
 import { audio } from '../../services/audio';
+import { AvatarDisplay } from '../avatar/AvatarDisplay';
 
 interface AdventureMapProps {
   child: ChildProfile;
   onLaunchGame: (gameId: GameId) => void;
   onGoToMateri: () => void;
+  onOpenPhygitalQuests?: () => void;
 }
 
 export const AdventureMap: React.FC<AdventureMapProps> = ({
   child,
   onLaunchGame,
   onGoToMateri,
+  onOpenPhygitalQuests,
 }) => {
   const islands = [
     {
@@ -57,6 +60,20 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
       coinsReward: '+15 Koin/modul',
       action: onGoToMateri,
     },
+    {
+      id: 'misi-nyata' as GameId,
+      title: 'Pulau Detektif Nyata',
+      subtitle: 'Phygital Quests di Rumah',
+      domain: 'Dunia Fisik & Keluarga',
+      emoji: '🏡',
+      color: 'from-amber-500 to-orange-400',
+      borderColor: 'border-amber-400',
+      textColor: 'text-amber-700',
+      desc: 'Kerjakan misi fisik di rumah bersama Ayah dan Bunda (cari bentuk, hidup sehat, peluk keluarga) & raih stempel emas!',
+      stars: 3,
+      coinsReward: '+30-50 Koin/misi',
+      action: onOpenPhygitalQuests || (() => {}),
+    },
   ];
 
   return (
@@ -75,14 +92,22 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
           </p>
         </div>
 
-        {/* Quick play last island button */}
-        <div className="relative z-10 flex gap-3 w-full md:w-auto">
+        {/* Quick action buttons & companion display */}
+        <div className="relative z-10 flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+          <div className="flex items-center gap-2.5 bg-black/20 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-white/20 w-full sm:w-auto">
+            <AvatarDisplay avatar={child.avatar} equipped={child.equipped} size="sm" />
+            <div className="text-left text-xs font-bold leading-tight">
+              <span className="block text-yellow-300 font-black">Sahabat Belajar</span>
+              <span className="text-[11px] text-pink-200">❤️ {child.buddyHappiness ?? 80}% Senang</span>
+            </div>
+          </div>
+
           <button
             onClick={() => {
               audio.playClick();
               onLaunchGame('letus-balon');
             }}
-            className="flex-1 md:flex-initial px-6 py-3.5 bg-yellow-400 hover:bg-yellow-300 active:scale-98 text-gemdark font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center justify-center gap-2 gem-btn-press"
+            className="w-full sm:w-auto px-6 py-3.5 bg-yellow-400 hover:bg-yellow-300 active:scale-98 text-gemdark font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center justify-center gap-2 gem-btn-press"
           >
             <Play className="w-4 h-4 fill-gemdark" /> Lanjutkan Main Balon
           </button>
@@ -93,7 +118,7 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
       </div>
 
       {/* Islands Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {islands.map(island => (
           <div
             key={island.id}

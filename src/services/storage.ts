@@ -1,4 +1,4 @@
-import { ChildProfile, ParentAccount, Session, Attempt, CoinLedgerEntry, Domain, GameId } from '../types';
+import { ChildProfile, ParentAccount, Session, Attempt, CoinLedgerEntry, Domain, GameId, AccessoryItem, PhygitalQuest, CompletedPhygitalQuest } from '../types';
 
 const STORAGE_KEYS = {
   PARENT: 'gembira_parent_v1',
@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
   LEDGER: 'gembira_coin_ledger_v1',
   COMPLETED_QUESTIONS_MAP: 'gembira_completed_q_map_v1', // Anti-farming tracking
   HAS_LOGGED_IN: 'gembira_has_logged_in_v1',
+  PHYGITAL_QUESTS: 'gembira_phygital_quests_v1',
 };
 
 class StorageService {
@@ -123,6 +124,9 @@ class StorageService {
       starsTotal: 0,
       createdAt: new Date().toISOString(),
       lastPlayedAt: new Date().toISOString(),
+      equipped: {},
+      ownedItemIds: [],
+      buddyHappiness: 75,
     };
 
     children.push(newChild);
@@ -150,6 +154,69 @@ class StorageService {
     children = children.filter(c => c.id !== childId);
     this.saveChildren(children);
     this.setActiveChildId(children[0].id);
+  }
+
+  // --- AVATAR BUDDY & ACCESSORY STORE ---
+  public buyAccessory(childId: string, item: AccessoryItem): ChildProfile {
+    const children = this.getChildren();
+    const child = children.find(c => c.id === childId);
+    if (!child) throw new Error('Profil anak tidak ditemukan.');
+
+    const owned = child.ownedItemIds || [];
+    if (owned.includes(item.id)) {
+      throw new Error('Aksesori ini sudah kamu miliki!');
+    }
+
+    if (child.coinsBalance < item.price) {
+      throw new Error(`Koin kamu (${child.coinsBalance}) belum cukup untuk membeli ${item.name} (${item.price} Koin). Yuk selesaikan game untuk dapat koin!`);
+    }
+
+    // Deduct coins and log ledger
+    this.recordCoinDelta(childId, -item.price, `Beli Aksesori: ${item.name}`);
+
+    // Reload child after deduction
+    const updatedChildren = this.getChildren();
+    const updatedChild = updatedChildren.find(c => c.id === childId)!;
+
+    updatedChild.ownedItemIds = [...owned, item.id];
+    // Auto equip the newly bought accessory
+    updatedChild.equipped = {
+      ...(updatedChild.equipped || {}),
+      [item.category]: item.icon,
+    };
+    // Boost happiness
+    updatedChild.buddyHappiness = Math.min(100, (updatedChild.buddyHappiness || 75) + 15);
+
+    this.saveChildren(updatedChildren);
+    return updatedChild;
+  }
+
+  public equipAccessory(
+    childId: string,
+    category: 'hat' | 'glasses' | 'badge' | 'aura',
+    icon: string | undefined
+  ): ChildProfile {
+    const children = this.getChildren();
+    const child = children.find(c => c.id === childId);
+    if (!child) throw new Error('Profil anak tidak ditemukan.');
+
+    child.equipped = {
+      ...(child.equipped || {}),
+      [category]: icon,
+    };
+
+    this.saveChildren(children);
+    return child;
+  }
+
+  public petBuddy(childId: string): ChildProfile {
+    const children = this.getChildren();
+    const child = children.find(c => c.id === childId);
+    if (!child) throw new Error('Profil anak tidak ditemukan.');
+
+    child.buddyHappiness = Math.min(100, (child.buddyHappiness || 75) + 5);
+    this.saveChildren(children);
+    return child;
   }
 
   // --- COIN REWARDS & LEDGER (ANTI-FARMING) ---
@@ -270,6 +337,61 @@ class StorageService {
     }
   }
 
+  // --- PHYGITAL QUESTS (REAL-WORLD ADVENTURE & PARENT VERIFICATION) ---
+  public getCompletedQuests(childId?: string): CompletedPhygitalQuest[] {
+    const raw = localStorage.getItem(STORAGE_KEYS.PHYGITAL_QUESTS);
+    if (!raw) return [];
+    try {
+      const list: CompletedPhygitalQuest[] = JSON.parse(raw);
+      if (childId) {
+        return list.filter(q => q.childId === childId);
+      }
+      return list;
+    } catch {
+      return [];
+    }
+  }
+
+  public completePhygitalQuest(
+    childId: string,
+    quest: PhygitalQuest,
+    parentNote?: string
+  ): { updatedChild: ChildProfile; completed: CompletedPhygitalQuest } {
+    const children = this.getChildren();
+    const child = children.find(c => c.id === childId);
+    if (!child) throw new Error('Profil anak tidak ditemukan');
+
+    // Add coins & stars & boost buddy happiness
+    child.coinsBalance = (child.coinsBalance || 0) + quest.rewardCoins;
+    child.starsTotal = (child.starsTotal || 0) + 1;
+    child.buddyHappiness = Math.min(100, (child.buddyHappiness || 75) + quest.happinessBonus);
+    this.saveChildren(children);
+
+    // Record coin delta in ledger
+    this.recordCoinDelta(childId, quest.rewardCoins, `Misi Dunia Nyata: ${quest.title}`);
+
+    // Create completed quest entry
+    const completed: CompletedPhygitalQuest = {
+      id: 'phy-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6),
+      childId,
+      questId: quest.id,
+      questTitle: quest.title,
+      category: quest.category,
+      badgeName: quest.badgeReward.name,
+      badgeIcon: quest.badgeReward.icon,
+      rewardCoins: quest.rewardCoins,
+      completedAt: new Date().toISOString(),
+      verifiedByParent: true,
+      parentNote,
+    };
+
+    const all = this.getCompletedQuests();
+    all.unshift(completed);
+    localStorage.setItem(STORAGE_KEYS.PHYGITAL_QUESTS, JSON.stringify(all));
+
+    return { updatedChild: child, completed };
+  }
+
   // --- DATA BACKUP / EXPORT / ERASE (UU PDP COMPLIANCE) ---
   public exportDataJson(): string {
     const data = {
@@ -280,6 +402,7 @@ class StorageService {
       sessions: this.getSessions(),
       attempts: this.getAttempts(),
       ledger: this.getCoinLedger(),
+      phygitalQuests: this.getCompletedQuests(),
     };
     return JSON.stringify(data, null, 2);
   }

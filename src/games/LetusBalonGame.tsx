@@ -5,7 +5,9 @@ import { MathQuestion, generateMathQuestion, getBalloonColor } from '../data/mat
 import { storage } from '../services/storage';
 import { audio } from '../services/audio';
 import { questionPool } from '../services/questionPool';
+import { scaffolding } from '../services/scaffolding';
 import { ResultSummaryModal } from '../components/game/ResultSummaryModal';
+import { ScaffoldingBuddyBanner } from '../components/game/ScaffoldingBuddyBanner';
 
 interface LetusBalonGameProps {
   child: ChildProfile;
@@ -38,17 +40,57 @@ export const LetusBalonGame: React.FC<LetusBalonGameProps> = ({
   const [streak, setStreak] = useState<number>(0);
   const [comboBanner, setComboBanner] = useState<string | null>(null);
 
+  // Scaffolding & Growth Mindset States
+  const [scaffoldingState, setScaffoldingState] = useState<{
+    isOpen: boolean;
+    message: string;
+    isHintUsed: boolean;
+  } | null>(null);
+  const [eliminatedIndices, setEliminatedIndices] = useState<number[]>([]);
+
   const questionStartTimeRef = useRef<number>(Date.now());
   const timerRef = useRef<any>(null);
 
-  // Read question narration when question changes
+  // Read question narration when question changes & reset per-question scaffolding
   useEffect(() => {
     questionStartTimeRef.current = Date.now();
+    setScaffoldingState(null);
+    setEliminatedIndices([]);
     audio.speak(currentQuestion.speechText);
     return () => {
       audio.stopSpeech();
     };
   }, [currentQuestion]);
+
+  // Hesitation detection (PKM-KC Dynamic Scaffolding: >9s without answer)
+  useEffect(() => {
+    if (poppedIndex !== null || isFinished || isPaused) return;
+    const timer = setTimeout(() => {
+      if (!scaffoldingState?.isOpen && poppedIndex === null) {
+        setScaffoldingState({
+          isOpen: true,
+          message: scaffolding.getEncouragement(),
+          isHintUsed: eliminatedIndices.length > 0,
+        });
+      }
+    }, 9000);
+    return () => clearTimeout(timer);
+  }, [currentQuestion, poppedIndex, isFinished, isPaused, scaffoldingState, eliminatedIndices.length]);
+
+  const handleEliminateBalloon = () => {
+    const wrongOptions = currentQuestion.options
+      .map((val, idx) => ({ val, idx }))
+      .filter(item => item.val !== currentQuestion.correctAnswer && !eliminatedIndices.includes(item.idx));
+
+    if (wrongOptions.length > 0) {
+      const target = wrongOptions[Math.floor(Math.random() * wrongOptions.length)];
+      setEliminatedIndices(prev => [...prev, target.idx]);
+      const newBalance = scaffolding.awardEffortReward(child.id, 'Semangat Balon Pantang Menyerah');
+      onCoinsUpdated(newBalance);
+      setCoinsEarned(prev => prev + 3);
+      setScaffoldingState(prev => (prev ? { ...prev, isHintUsed: true } : null));
+    }
+  };
 
   // Timer effect for timed mode
   useEffect(() => {
@@ -134,6 +176,11 @@ export const LetusBalonGame: React.FC<LetusBalonGameProps> = ({
       setWrongIndex(idx);
       setStreak(0); // Reset streak on mistake
       setComboBanner(null);
+      setScaffoldingState({
+        isOpen: true,
+        message: scaffolding.getEncouragement(),
+        isHintUsed: eliminatedIndices.length > 0,
+      });
       setTimeout(() => {
         setWrongIndex(null);
       }, 600);
@@ -286,21 +333,41 @@ export const LetusBalonGame: React.FC<LetusBalonGameProps> = ({
           <p className="text-xs text-gray-500 font-semibold mt-1">Pilih balon dengan jawaban yang benar!</p>
         </div>
 
+        {/* Dynamic Scaffolding & Growth Mindset Buddy Banner */}
+        {scaffoldingState?.isOpen && (
+          <ScaffoldingBuddyBanner
+            child={child}
+            message={scaffoldingState.message}
+            onEliminateWrongOption={
+              eliminatedIndices.length < currentQuestion.options.length - 1
+                ? handleEliminateBalloon
+                : undefined
+            }
+            isHintUsed={scaffoldingState.isHintUsed}
+            onDismiss={() => setScaffoldingState(null)}
+          />
+        )}
+
         {/* Four floating balloons to pop */}
         <div className="relative z-10 w-full max-w-2xl grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 my-6">
           {currentQuestion.options.map((val, idx) => {
             const color = getBalloonColor(idx);
             const isPopped = poppedIndex === idx;
             const isWrong = wrongIndex === idx;
+            const isEliminated = eliminatedIndices.includes(idx);
 
             return (
               <div key={idx} className="flex flex-col items-center">
                 <button
                   type="button"
-                  onClick={() => handleSelectOption(val, idx)}
-                  disabled={isPopped}
+                  onClick={() => !isEliminated && handleSelectOption(val, idx)}
+                  disabled={isPopped || isEliminated}
                   className={`w-28 h-36 sm:w-32 sm:h-40 rounded-[50%/60%_60%_40%_40%] flex flex-col items-center justify-center font-black shadow-xl border-4 transition-all gem-card-hover select-none relative ${color.bg} ${color.border} ${color.text} ${
-                    isPopped ? 'scale-0 opacity-0 duration-300' : 'animate-float'
+                    isPopped
+                      ? 'scale-0 opacity-0 duration-300'
+                      : isEliminated
+                      ? 'opacity-25 grayscale scale-75 cursor-not-allowed pointer-events-none'
+                      : 'animate-float'
                   } ${isWrong ? 'animate-wiggle border-red-500' : ''}`}
                   style={{ animationDelay: `${idx * 0.4}s` }}
                 >

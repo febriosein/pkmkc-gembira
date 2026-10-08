@@ -5,7 +5,9 @@ import { ModuleItem, ModuleQuestion } from '../../data/modulesData';
 import { storage } from '../../services/storage';
 import { audio } from '../../services/audio';
 import { questionPool } from '../../services/questionPool';
+import { scaffolding } from '../../services/scaffolding';
 import { ResultSummaryModal } from '../../components/game/ResultSummaryModal';
+import { ScaffoldingBuddyBanner } from '../../components/game/ScaffoldingBuddyBanner';
 
 interface ModuleRunnerModalProps {
   child: ChildProfile;
@@ -42,22 +44,61 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
   const [isFinished, setIsFinished] = useState(false);
   const [sessionId] = useState(() => 'sess-mod-' + module.id + '-' + Date.now());
 
+  // Scaffolding & Growth Mindset States
+  const [scaffoldingState, setScaffoldingState] = useState<{
+    isOpen: boolean;
+    message: string;
+    isHintUsed: boolean;
+  } | null>(null);
+  const [eliminatedIds, setEliminatedIds] = useState<string[]>([]);
+  const [mistakeCount, setMistakeCount] = useState<number>(0);
+
   const questionStartTimeRef = useRef(Date.now());
   const currentQuestion = sessionQuestions[currentQuestionIndex];
 
-  // Auto speech narration when question loads
+  // Auto speech narration when question loads & reset per-question scaffolding
   useEffect(() => {
     if (!currentQuestion) return;
     questionStartTimeRef.current = Date.now();
     setSelectedOptionId(null);
     setIsAnswerCorrect(null);
     setExplanationText('');
+    setScaffoldingState(null);
+    setEliminatedIds([]);
+    setMistakeCount(0);
     audio.speak(currentQuestion.speechText);
 
     return () => {
       audio.stopSpeech();
     };
   }, [currentQuestionIndex, currentQuestion]);
+
+  // Hesitation detection (>9s without answering triggers supportive buddy)
+  useEffect(() => {
+    if (!currentQuestion || selectedOptionId !== null || isFinished) return;
+    const timer = setTimeout(() => {
+      if (!scaffoldingState?.isOpen && selectedOptionId === null) {
+        setScaffoldingState({
+          isOpen: true,
+          message: scaffolding.getEncouragement(),
+          isHintUsed: eliminatedIds.length > 0,
+        });
+      }
+    }, 9000);
+    return () => clearTimeout(timer);
+  }, [currentQuestion, selectedOptionId, isFinished, scaffoldingState, eliminatedIds.length]);
+
+  const handleEliminateOption = () => {
+    if (!currentQuestion) return;
+    const correctOpt = currentQuestion.options.find(o => o.isCorrect);
+    if (!correctOpt) return;
+    const eliminated = scaffolding.getEliminatedOptionIds(currentQuestion.options, correctOpt.id, 1);
+    setEliminatedIds(prev => Array.from(new Set([...prev, ...eliminated])));
+    const newBalance = scaffolding.awardEffortReward(child.id, 'Semangat Belajar Pantang Menyerah');
+    onCoinsUpdated(newBalance);
+    setCoinsEarned(prev => prev + 3);
+    setScaffoldingState(prev => (prev ? { ...prev, isHintUsed: true } : null));
+  };
 
   const handleSelectOption = (option: any) => {
     if (selectedOptionId !== null || isFinished) return;
@@ -96,6 +137,13 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
       }
     } else {
       audio.playGentleBoing();
+      const nextMistakes = mistakeCount + 1;
+      setMistakeCount(nextMistakes);
+      setScaffoldingState({
+        isOpen: true,
+        message: scaffolding.getEncouragement(),
+        isHintUsed: eliminatedIds.length > 0,
+      });
       setTimeout(() => {
         setSelectedOptionId(null);
         setIsAnswerCorrect(null);
@@ -221,6 +269,21 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
           </h4>
         </div>
 
+        {/* Dynamic Scaffolding & Growth Mindset Buddy Banner */}
+        {scaffoldingState?.isOpen && (
+          <ScaffoldingBuddyBanner
+            child={child}
+            message={scaffoldingState.message}
+            onEliminateWrongOption={
+              currentQuestion.options.length > 2 && eliminatedIds.length === 0
+                ? handleEliminateOption
+                : undefined
+            }
+            isHintUsed={scaffoldingState.isHintUsed}
+            onDismiss={() => setScaffoldingState(null)}
+          />
+        )}
+
         {/* Feedback message banner if answered */}
         {isAnswerCorrect !== null && (
           <div className={`w-full max-w-lg p-3 rounded-2xl text-xs font-black flex items-center justify-between gap-2 my-2 animate-in fade-in ${
@@ -245,13 +308,16 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
         <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-3 gap-3 my-2">
           {currentQuestion.options.map(opt => {
             const isSelected = selectedOptionId === opt.id;
+            const isEliminated = eliminatedIds.includes(opt.id);
             return (
               <button
                 key={opt.id}
-                onClick={() => handleSelectOption(opt)}
-                disabled={selectedOptionId !== null && isAnswerCorrect === true}
+                onClick={() => !isEliminated && handleSelectOption(opt)}
+                disabled={(selectedOptionId !== null && isAnswerCorrect === true) || isEliminated}
                 className={`p-4 rounded-2xl border-3 font-black text-sm flex flex-col items-center justify-center gap-1.5 transition-all gem-card-hover gem-btn-press shadow-sm ${
-                  isSelected && isAnswerCorrect
+                  isEliminated
+                    ? 'border-gray-200 bg-gray-100 text-gray-400 opacity-40 cursor-not-allowed line-through'
+                    : isSelected && isAnswerCorrect
                     ? 'border-gemgreen bg-emerald-100 text-gemgreen ring-2 ring-emerald-300 scale-102'
                     : isSelected && !isAnswerCorrect
                     ? 'border-red-400 bg-red-50 text-red-600'
@@ -260,6 +326,9 @@ export const ModuleRunnerModal: React.FC<ModuleRunnerModalProps> = ({
               >
                 {opt.emoji && <span className="text-2xl">{opt.emoji}</span>}
                 <span>{opt.label}</span>
+                {isEliminated && (
+                  <span className="text-[10px] text-gray-400 font-bold">Dieliminasi sahabat 🪄</span>
+                )}
               </button>
             );
           })}

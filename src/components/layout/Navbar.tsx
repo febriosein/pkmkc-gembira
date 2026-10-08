@@ -2,12 +2,14 @@ import React from 'react';
 import { Compass, Gamepad2, BookOpen, Trophy, ShieldCheck, Volume2, VolumeX } from 'lucide-react';
 import { ChildProfile, NavigationTab } from '../../types';
 import { audio } from '../../services/audio';
+import { AvatarDisplay } from '../avatar/AvatarDisplay';
 
 interface NavbarProps {
   currentTab: NavigationTab;
   onSelectTab: (tab: NavigationTab) => void;
   activeChild: ChildProfile;
   onOpenProfileModal: () => void;
+  onOpenClosetModal: () => void;
   isMuted: boolean;
   onToggleMute: () => void;
 }
@@ -17,6 +19,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSelectTab,
   activeChild,
   onOpenProfileModal,
+  onOpenClosetModal,
   isMuted,
   onToggleMute,
 }) => {
@@ -104,6 +107,34 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>{activeChild.coinsBalance}</span>
           </div>
 
+          {/* Ruang Sahabat & Lemari Avatar (Tamagotchi Loop) */}
+          <button
+            type="button"
+            onClick={() => {
+              audio.playClick();
+              onOpenClosetModal();
+            }}
+            className="flex items-center gap-2 pl-2 pr-3 py-1 bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 border-2 border-pink-300 rounded-2xl transition-all text-left gem-card-hover"
+            title="Buka Ruang Sahabat & Lemari Aksesoris"
+          >
+            <div className="w-8 h-8 rounded-xl bg-white flex items-center justify-center shadow-sm border border-pink-200 relative overflow-hidden">
+              <AvatarDisplay
+                avatar={activeChild.avatar}
+                equipped={activeChild.equipped}
+                size="sm"
+              />
+            </div>
+            <div className="hidden sm:block leading-tight">
+              <div className="flex items-center gap-1">
+                <span className="font-black text-xs text-pink-700">Sahabat</span>
+                <span className="text-[10px] text-pink-500 font-bold">❤️{activeChild.buddyHappiness ?? 80}%</span>
+              </div>
+              <span className="text-[9px] text-gempurple font-bold uppercase tracking-wider block">
+                Lemari & Elus
+              </span>
+            </div>
+          </button>
+
           {/* Active child profile button */}
           <button
             type="button"
@@ -111,17 +142,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               audio.playClick();
               onOpenProfileModal();
             }}
-            className="flex items-center gap-2 pl-2 pr-3 py-1 bg-purple-50 hover:bg-purple-100 border-2 border-gempurple/30 rounded-2xl transition-all text-left gem-card-hover"
+            className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 border-2 border-gray-200 rounded-2xl transition-all text-left gem-card-hover"
             title="Ganti Profil Anak"
           >
-            <div className="w-7 h-7 rounded-xl bg-white flex items-center justify-center text-lg shadow-sm border border-purple-200">
-              {activeChild.avatar}
-            </div>
-            <div className="hidden sm:block leading-tight">
+            <div className="leading-tight">
               <span className="block font-black text-xs text-gemdark max-w-[85px] truncate">
                 {activeChild.nickname}
               </span>
-              <span className="text-[10px] text-gempurple font-bold uppercase tracking-wider">
+              <span className="text-[9px] text-gray-500 font-bold uppercase tracking-wider">
                 Ganti Profil
               </span>
             </div>

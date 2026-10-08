@@ -10,7 +10,8 @@ import {
   Lock, 
   Lightbulb, 
   CheckCircle2, 
-  Timer
+  Timer,
+  Award
 } from 'lucide-react';
 import { ChildProfile, SkillSnapshot } from '../../types';
 import { storage } from '../../services/storage';
@@ -21,12 +22,14 @@ interface ParentDashboardProps {
   child: ChildProfile;
   onLockParentMode: () => void;
   onChildUpdated: (updated: ChildProfile) => void;
+  onOpenAchievementModal?: () => void;
 }
 
 export const ParentDashboard: React.FC<ParentDashboardProps> = ({
   child,
   onLockParentMode,
   onChildUpdated,
+  onOpenAchievementModal,
 }) => {
   const snapshots = diagnostic.calculateSkillSnapshots(child.id);
   const [dailyLimit, setDailyLimit] = useState<number>(child.dailyLimitMin || 30);
@@ -37,6 +40,7 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
   const parent = storage.getParentAccount();
   const sessions = storage.getSessions(child.id);
   const totalAttempts = storage.getAttempts(child.id).length;
+  const completedQuests = storage.getCompletedQuests(child.id);
 
   const handleUpdateLimit = (val: number) => {
     setDailyLimit(val);
@@ -117,16 +121,29 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
           </div>
         </div>
 
-        <button
-          onClick={() => {
-            audio.playClick();
-            onLockParentMode();
-          }}
-          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-black rounded-2xl text-xs transition-colors flex items-center gap-1.5"
-          title="Kunci kembali sesi orang tua"
-        >
-          <Lock className="w-4 h-4 text-gray-500" /> Kunci Sesi Ortu
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              audio.playClick();
+              if (onOpenAchievementModal) onOpenAchievementModal();
+            }}
+            className="px-4 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 active:scale-95 text-white font-black rounded-2xl text-xs transition-all shadow-md flex items-center gap-1.5 gem-btn-press"
+          >
+            <Award className="w-4 h-4 text-yellow-100" /> Cetak Kartu Prestasi Juara
+          </button>
+
+          <button
+            onClick={() => {
+              audio.playClick();
+              onLockParentMode();
+            }}
+            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-black rounded-2xl text-xs transition-colors flex items-center gap-1.5"
+            title="Kunci kembali sesi orang tua"
+          >
+            <Lock className="w-4 h-4 text-gray-500" /> Kunci Sesi Ortu
+          </button>
+        </div>
       </div>
 
       {/* Activity Overview Stats */}
@@ -233,6 +250,76 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
             <strong>Catatan untuk Orang Tua:</strong> Laporan ini dirancang sebagai indikator kemajuan belajar dan stimulasi interaktif anak di rumah. Laporan ini <strong>bukan diagnosis klinis</strong> (seperti disleksia atau diskalkulia).
           </p>
         </div>
+      </div>
+
+      {/* Phygital Real-World Quest Activity Log for Parents */}
+      <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 rounded-3xl p-6 border-3 border-amber-300 shadow-md">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-2xl shadow-md">
+              🏡
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-black text-gemdark">
+                  Misi Dunia Nyata (Phygital Quests) & Kedekatan Keluarga
+                </h3>
+                <span className="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                  PKM-KC Inovasi
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 font-medium">
+                Catatan aktivitas eksplorasi fisik, budi pekerti, dan interaksi nyata anak bersama keluarga di rumah.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white px-4 py-2 rounded-2xl border border-amber-300 shadow-xs flex items-center gap-2 self-start sm:self-auto">
+            <Award className="w-5 h-5 text-amber-600" />
+            <div className="text-left text-xs">
+              <span className="font-black text-amber-800 block">{completedQuests.length} Misi Selesai</span>
+              <span className="text-[10px] text-gray-500 font-bold">Terverifikasi Orang Tua</span>
+            </div>
+          </div>
+        </div>
+
+        {completedQuests.length === 0 ? (
+          <div className="bg-white/80 rounded-2xl p-5 border border-amber-200 text-center">
+            <p className="text-xs text-gray-600 font-semibold mb-1">
+              Belum ada misi dunia nyata yang diselesaikan bersama anak.
+            </p>
+            <p className="text-[11px] text-gray-500">
+              Ajak anak membuka <strong>Pulau Detektif Nyata 🏡</strong> di Peta Petualangan untuk melakukan misi mencari bentuk lingkaran, minum air putih sehat, merapikan mainan, atau memeluk Ayah/Bunda!
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            {completedQuests.map((q) => (
+              <div
+                key={q.id}
+                className="bg-white rounded-2xl p-3.5 border-2 border-amber-200 shadow-xs flex items-start gap-3"
+              >
+                <span className="text-2xl p-2 rounded-xl bg-amber-50 border border-amber-200 flex-shrink-0">
+                  {q.badgeIcon}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <h4 className="font-black text-xs text-gemdark truncate">{q.questTitle}</h4>
+                  <span className="text-[10px] font-bold text-amber-700 block">
+                    {q.badgeName} • +{q.rewardCoins}🪙
+                  </span>
+                  <span className="text-[9px] text-gray-400 block mt-0.5">
+                    Diverifikasi: {new Date(q.completedAt).toLocaleDateString('id-ID')}
+                  </span>
+                  {q.parentNote && (
+                    <p className="text-[10px] text-gray-600 italic mt-1 bg-amber-50/70 p-1 rounded border border-amber-100">
+                      "{q.parentNote}"
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Parental Controls & Settings */}

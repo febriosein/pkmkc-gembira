@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Play, Sparkles, Gamepad2, Star } from 'lucide-react';
+import { Play, Sparkles, Gamepad2, Star, Mic } from 'lucide-react';
 import { GameId } from '../../types';
 import { audio } from '../../services/audio';
 
 interface GameArenaListProps {
   onSelectGame: (gameId: GameId) => void;
+  onOpenVoiceChallenge?: () => void;
 }
 
 type GameCategory = 'all' | 'math' | 'word' | 'music' | 'puzzle';
@@ -111,7 +112,10 @@ const ALL_GAMES: GameInfo[] = [
   },
 ];
 
-export const GameArenaList: React.FC<GameArenaListProps> = ({ onSelectGame }) => {
+export const GameArenaList: React.FC<GameArenaListProps> = ({
+  onSelectGame,
+  onOpenVoiceChallenge,
+}) => {
   const [activeCategory, setActiveCategory] = useState<GameCategory>('all');
 
   const categories: { id: GameCategory; label: string; icon: string }[] = [
@@ -137,6 +141,41 @@ export const GameArenaList: React.FC<GameArenaListProps> = ({ onSelectGame }) =>
         <p className="text-xs sm:text-sm text-gray-500 font-semibold mt-1">
           Pilih permainan favoritmu dan tantang dirimu untuk meraih bintang 3 dan koin emas!
         </p>
+      </div>
+
+      {/* PKM-KC Voice Challenge Feature Banner */}
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-3xl p-5 sm:p-6 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border-2 border-white/20">
+        <div className="flex items-center gap-3.5 text-center sm:text-left">
+          <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl shadow-inner border border-white/30 animate-float flex-shrink-0">
+            🎙️
+          </div>
+          <div>
+            <div className="flex items-center justify-center sm:justify-start gap-1.5 mb-1">
+              <span className="bg-yellow-400 text-gemdark text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                Inovasi Baru PKM-KC
+              </span>
+              <span className="text-xs text-purple-200 font-bold">10 Tantangan Lafal</span>
+            </div>
+            <h4 className="text-lg sm:text-xl font-black">
+              Tantangan Suara Sahabat Cilik
+            </h4>
+            <p className="text-xs text-purple-100 font-medium max-w-md mt-0.5">
+              Latih keberanian berbicara lantang: sebutkan nama satwa, angka, dan budi pekerti langsung ke mikrofon untuk dapat koin bintang!
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            audio.playClick();
+            if (onOpenVoiceChallenge) onOpenVoiceChallenge();
+          }}
+          className="px-5 py-3 bg-yellow-400 hover:bg-yellow-300 active:scale-95 text-gemdark font-black text-xs sm:text-sm rounded-2xl shadow-lg transition-all flex items-center gap-2 gem-btn-press flex-shrink-0"
+        >
+          <Mic className="w-4 h-4 fill-gemdark" />
+          <span>Mulai Ucapkan Suara! 🗣️</span>
+        </button>
       </div>
 
       {/* Category Filter Pills */}
