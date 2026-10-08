@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, UserPlus, Check, Trash2, Coins, Star, Users } from 'lucide-react';
+import { X, UserPlus, Check, Trash2, Coins, Star, Users, LogOut } from 'lucide-react';
 import { ChildProfile } from '../../types';
 import { storage } from '../../services/storage';
 import { audio } from '../../services/audio';
@@ -10,6 +10,7 @@ interface ProfileModalProps {
   onClose: () => void;
   activeChild: ChildProfile;
   onSelectChild: (child: ChildProfile) => void;
+  onLogout?: () => void;
 }
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({
@@ -17,6 +18,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
   onClose,
   activeChild,
   onSelectChild,
+  onLogout,
 }) => {
   const [children, setChildren] = useState<ChildProfile[]>(() => storage.getChildren());
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -181,6 +183,20 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({
             <p className="text-[11px] text-gray-400 text-center italic">
               Batas maksimum 4 profil telah tercapai.
             </p>
+          )}
+
+          {onLogout && (
+            <button
+              type="button"
+              onClick={() => {
+                audio.playClick();
+                onClose();
+                onLogout();
+              }}
+              className="w-full mt-2.5 py-2.5 bg-purple-50 hover:bg-purple-100 text-gempurple font-black rounded-2xl text-xs transition-colors flex items-center justify-center gap-2 border border-purple-200"
+            >
+              <LogOut className="w-4 h-4" /> Ganti Pemain / Masuk Akun Lain
+            </button>
           )}
         </div>
       </div>

@@ -8,6 +8,7 @@ const STORAGE_KEYS = {
   ATTEMPTS: 'gembira_attempts_v1',
   LEDGER: 'gembira_coin_ledger_v1',
   COMPLETED_QUESTIONS_MAP: 'gembira_completed_q_map_v1', // Anti-farming tracking
+  HAS_LOGGED_IN: 'gembira_has_logged_in_v1',
 };
 
 class StorageService {
@@ -45,6 +46,15 @@ class StorageService {
     return parent.pin === inputPin || inputPin === '1234';
   }
 
+  // --- LOGIN & ONBOARDING STATE ---
+  public hasLoggedIn(): boolean {
+    return localStorage.getItem(STORAGE_KEYS.HAS_LOGGED_IN) === 'true';
+  }
+
+  public setLoggedIn(status: boolean) {
+    localStorage.setItem(STORAGE_KEYS.HAS_LOGGED_IN, String(status));
+  }
+
   // --- CHILDREN PROFILES ---
   public getChildren(): ChildProfile[] {
     const raw = localStorage.getItem(STORAGE_KEYS.CHILDREN);
@@ -58,22 +68,7 @@ class StorageService {
         console.error('Failed to parse children data', e);
       }
     }
-
-    // Seed default starter child profile based on prototype
-    const defaultChild: ChildProfile = {
-      id: 'child-1',
-      parentId: 'parent-1',
-      nickname: 'Budi Pratama',
-      avatar: '🦊',
-      ageBand: 'paud',
-      coinsBalance: 120,
-      dailyLimitMin: 30,
-      starsTotal: 8,
-      createdAt: new Date().toISOString(),
-      lastPlayedAt: new Date().toISOString(),
-    };
-    this.saveChildren([defaultChild]);
-    return [defaultChild];
+    return [];
   }
 
   public saveChildren(children: ChildProfile[]) {
@@ -86,10 +81,25 @@ class StorageService {
     const found = children.find(c => c.id === activeId);
     if (found) return found;
 
-    // Fallback to first child
-    const first = children[0];
-    this.setActiveChildId(first.id);
-    return first;
+    if (children.length > 0) {
+      const first = children[0];
+      this.setActiveChildId(first.id);
+      return first;
+    }
+
+    // Fallback starter profile
+    return {
+      id: 'child-1',
+      parentId: 'parent-1',
+      nickname: 'Sahabat Cilik',
+      avatar: '🦊',
+      ageBand: 'paud',
+      coinsBalance: 50,
+      dailyLimitMin: 30,
+      starsTotal: 0,
+      createdAt: new Date().toISOString(),
+      lastPlayedAt: new Date().toISOString(),
+    };
   }
 
   public setActiveChildId(childId: string) {

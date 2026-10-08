@@ -4,6 +4,7 @@ import { BottomNav } from './components/layout/BottomNav';
 import { ProfileModal } from './components/profile/ProfileModal';
 import { ParentGateModal } from './components/parent/ParentGateModal';
 import { DifficultySelectorModal } from './components/common/DifficultySelectorModal';
+import { ChildLoginView } from './components/auth/ChildLoginView';
 import { AdventureMap } from './components/map/AdventureMap';
 import { GameArenaList } from './components/game/GameArenaList';
 import { LetusBalonGame } from './games/LetusBalonGame';
@@ -39,6 +40,7 @@ interface LaunchTarget {
 }
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => storage.hasLoggedIn());
   const [activeChild, setActiveChild] = useState<ChildProfile>(() => storage.getActiveChild());
   const [currentTab, setCurrentTab] = useState<NavigationTab>('peta');
   const [activeGameId, setActiveGameId] = useState<GameId | null>(null);
@@ -50,6 +52,11 @@ export default function App() {
   const [isParentGateOpen, setIsParentGateOpen] = useState(false);
   const [isParentUnlocked, setIsParentUnlocked] = useState(false);
   const [isMuted, setIsMuted] = useState(() => audio.getIsMuted());
+
+  const handleLogout = () => {
+    storage.setLoggedIn(false);
+    setIsLoggedIn(false);
+  };
 
   // Handle Tab Switch (Protect 'ortu' with Parent Gate)
   const handleSelectTab = (tab: NavigationTab) => {
@@ -118,6 +125,17 @@ export default function App() {
   };
 
   const isPlayingActive = Boolean(activeGameId || activeModule);
+
+  if (!isLoggedIn) {
+    return (
+      <ChildLoginView
+        onLoginSuccess={(child) => {
+          setActiveChild(child);
+          setIsLoggedIn(true);
+        }}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen fun-pattern flex flex-col justify-between pb-20 md:pb-6 text-gemdark">
@@ -283,6 +301,7 @@ export default function App() {
         onClose={() => setIsProfileModalOpen(false)}
         activeChild={activeChild}
         onSelectChild={handleChildChanged}
+        onLogout={handleLogout}
       />
 
       <ParentGateModal
