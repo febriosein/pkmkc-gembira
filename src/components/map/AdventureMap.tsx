@@ -74,6 +74,20 @@ export const AdventureMap: React.FC<AdventureMapProps> = ({
       coinsReward: '+30-50 Koin/misi',
       action: onOpenPhygitalQuests || (() => {}),
     },
+    {
+      id: 'unity-platformer' as GameId,
+      title: 'Pulau Petualangan 2D',
+      subtitle: 'Lompat Huruf & Balok Angka (Unity)',
+      domain: 'Platformer Interaktif',
+      emoji: '🎮',
+      color: 'from-cyan-600 to-blue-500',
+      borderColor: 'border-cyan-400',
+      textColor: 'text-cyan-700',
+      desc: 'Lompat dan berpetualang di pulau tropis untuk mengumpulkan huruf kata dan menyundul balok jawaban berhitung.',
+      stars: 3,
+      coinsReward: '+30 Koin & Bintang 3',
+      action: () => onLaunchGame('unity-platformer'),
+    },
   ];
 
   return (

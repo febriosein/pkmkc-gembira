@@ -110,6 +110,20 @@ const ALL_GAMES: GameInfo[] = [
     desc: 'Bantu anak kelinci dan kucing menemukan jalan pulang melalui jalur berpagar menggunakan tombol arah panah.',
     reward: '+12 Koin/level',
   },
+  {
+    id: 'unity-platformer',
+    title: 'Petualangan Pulau Kata & Angka',
+    subtitle: 'Unity 2D Engine · Literasi & Numerasi',
+    category: 'word',
+    categoryLabel: 'Unity Engine 2D',
+    emoji: '🏝️',
+    ageBand: 'PAUD - SD Fase A & B',
+    color: 'from-blue-600 via-teal-500 to-emerald-400',
+    borderColor: 'border-gemblue',
+    textColor: 'text-gemblue',
+    desc: 'Jelajahi pulau tropis GEMBIRA dengan berlari & melompat untuk menyusun huruf kata dan menyundul balok jawaban berhitung.',
+    reward: '+30 Koin & Bintang 3',
+  },
 ];
 
 export const GameArenaList: React.FC<GameArenaListProps> = ({

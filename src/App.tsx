@@ -13,6 +13,7 @@ import { TangkapBuahGame } from './games/TangkapBuahGame';
 import { OrkestraMusikGame } from './games/OrkestraMusikGame';
 import { CocokBayanganGame } from './games/CocokBayanganGame';
 import { LabirinSatwaGame } from './games/LabirinSatwaGame';
+import { UnityPlatformerGame } from './games/UnityPlatformerGame';
 import { MateriList } from './components/materi/MateriList';
 import { ModuleRunnerModal } from './games/modules/ModuleRunnerModal';
 import { ParentDashboard } from './components/parent/ParentDashboard';
@@ -35,6 +36,7 @@ const GAME_METADATA: Partial<Record<GameId, { title: string; emoji: string }>> =
   'orkestra-musik': { title: 'Orkestra Melodi Ajaib', emoji: '🎹' },
   'cocok-bayangan': { title: 'Cocok Bayangan Ajaib', emoji: '🧩' },
   'labirin-satwa': { title: 'Labirin Jejak Sahabat', emoji: '🐾' },
+  'unity-platformer': { title: 'Petualangan Pulau Kata & Angka (Unity 2D)', emoji: '🏝️' },
 };
 
 interface LaunchTarget {
@@ -269,6 +271,15 @@ export default function App() {
 
         {activeGameId === 'labirin-satwa' && (
           <LabirinSatwaGame
+            child={activeChild}
+            difficulty={activeDifficulty}
+            onExit={() => setActiveGameId(null)}
+            onCoinsUpdated={handleCoinsUpdated}
+          />
+        )}
+
+        {activeGameId === 'unity-platformer' && (
+          <UnityPlatformerGame
             child={activeChild}
             difficulty={activeDifficulty}
             onExit={() => setActiveGameId(null)}

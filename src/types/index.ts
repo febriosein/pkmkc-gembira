@@ -15,6 +15,7 @@ export type GameId =
   | 'orkestra-musik'
   | 'cocok-bayangan'
   | 'labirin-satwa'
+  | 'unity-platformer'
   | 'm1-warna' 
   | 'm2-geometri' 
   | 'm3-hitung-hewan' 

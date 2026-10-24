@@ -6,7 +6,6 @@ import {
   Minus, 
   Clock, 
   AlertCircle, 
-  Download, 
   Lock, 
   Lightbulb, 
   CheckCircle2, 
@@ -35,7 +34,6 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
   const [dailyLimit, setDailyLimit] = useState<number>(child.dailyLimitMin || 30);
   const [newPin, setNewPin] = useState<string>('');
   const [pinMessage, setPinMessage] = useState<string>('');
-  const [isExportSuccess, setIsExportSuccess] = useState<boolean>(false);
 
   const parent = storage.getParentAccount();
   const sessions = storage.getSessions(child.id);
@@ -62,23 +60,6 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
     setPinMessage('PIN berhasil diperbarui!');
     setNewPin('');
     setTimeout(() => setPinMessage(''), 3000);
-  };
-
-  const handleExportData = () => {
-    audio.playClick();
-    const dataJson = storage.exportDataJson();
-    const blob = new Blob([dataJson], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `GEMBIRA_Data_Anak_${child.nickname}_${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
-    setIsExportSuccess(true);
-    setTimeout(() => setIsExportSuccess(false), 3000);
   };
 
   const getStatusBadge = (status: SkillSnapshot['status']) => {
@@ -323,87 +304,58 @@ export const ParentDashboard: React.FC<ParentDashboardProps> = ({
       </div>
 
       {/* Parental Controls & Settings */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {/* Playtime Limit & PIN */}
-        <div className="bg-white rounded-3xl p-6 border-3 border-gray-100 shadow-md space-y-4">
-          <h3 className="text-lg font-black text-gemdark flex items-center gap-2">
-            <Timer className="w-5 h-5 text-gempurple" /> Pengaturan Batas Bermain
-          </h3>
+      <div className="bg-white rounded-3xl p-6 border-3 border-gray-100 shadow-md space-y-4">
+        <h3 className="text-lg font-black text-gemdark flex items-center gap-2">
+          <Timer className="w-5 h-5 text-gempurple" /> Pengaturan Batas Bermain & PIN
+        </h3>
 
-          <div>
-            <div className="flex justify-between items-center text-xs font-bold text-gray-700 mb-1.5">
-              <span>Batas Waktu Main Harian Anak:</span>
-              <span className="text-gempurple font-black text-sm">{dailyLimit} Menit / Hari</span>
-            </div>
-            <input
-              type="range"
-              min="15"
-              max="90"
-              step="15"
-              value={dailyLimit}
-              onChange={(e) => handleUpdateLimit(Number(e.target.value))}
-              className="w-full accent-gempurple cursor-pointer"
-            />
-            <div className="flex justify-between text-[10px] text-gray-400 font-bold mt-1">
-              <span>15 mnt</span>
-              <span>30 mnt</span>
-              <span>45 mnt</span>
-              <span>60 mnt</span>
-              <span>90 mnt</span>
-            </div>
+        <div>
+          <div className="flex justify-between items-center text-xs font-bold text-gray-700 mb-1.5">
+            <span>Batas Waktu Main Harian Anak:</span>
+            <span className="text-gempurple font-black text-sm">{dailyLimit} Menit / Hari</span>
           </div>
-
-          <form onSubmit={handleChangePin} className="pt-3 border-t border-gray-100 space-y-2">
-            <label className="block text-xs font-black uppercase text-gray-600">
-              Ubah PIN Orang Tua (Saat ini: {parent.pin})
-            </label>
-            <div className="flex gap-2">
-              <input
-                type="password"
-                maxLength={4}
-                value={newPin}
-                onChange={(e) => setNewPin(e.target.value)}
-                placeholder="4 digit angka baru"
-                className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl text-xs font-bold focus:border-gempurple focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="px-4 py-2 bg-gempurple hover:bg-purple-700 text-white font-black text-xs rounded-xl shadow-sm transition-colors"
-              >
-                Simpan PIN
-              </button>
-            </div>
-            {pinMessage && (
-              <span className="text-[11px] font-bold text-emerald-600 block">{pinMessage}</span>
-            )}
-          </form>
+          <input
+            type="range"
+            min="15"
+            max="90"
+            step="15"
+            value={dailyLimit}
+            onChange={(e) => handleUpdateLimit(Number(e.target.value))}
+            className="w-full accent-gempurple cursor-pointer"
+          />
+          <div className="flex justify-between text-[10px] text-gray-400 font-bold mt-1">
+            <span>15 mnt</span>
+            <span>30 mnt</span>
+            <span>45 mnt</span>
+            <span>60 mnt</span>
+            <span>90 mnt</span>
+          </div>
         </div>
 
-        {/* Data Ownership & Export (UU PDP) */}
-        <div className="bg-white rounded-3xl p-6 border-3 border-gray-100 shadow-md flex flex-col justify-between">
-          <div>
-            <h3 className="text-lg font-black text-gemdark flex items-center gap-2 mb-2">
-              <Download className="w-5 h-5 text-gemgreen" /> Cadangan & Privasi Data Anak (UU PDP)
-            </h3>
-            <p className="text-xs text-gray-600 font-medium leading-relaxed mb-4">
-              Sesuai UU No. 27 Tahun 2022 tentang Pelindungan Data Pribadi, seluruh data anak (riwayat soal, attempt, dan koin) disimpan secara lokal di perangkat Anda. Anda dapat mengunduh seluruh data dalam format JSON kapan saja.
-            </p>
-          </div>
-
-          <div>
-            {isExportSuccess && (
-              <div className="text-xs font-bold text-emerald-600 mb-2 flex items-center gap-1">
-                <CheckCircle2 className="w-4 h-4" /> Berkas data anak berhasil diunduh!
-              </div>
-            )}
+        <form onSubmit={handleChangePin} className="pt-3 border-t border-gray-100 space-y-2">
+          <label className="block text-xs font-black uppercase text-gray-600">
+            Ubah PIN Orang Tua (Saat ini: {parent.pin})
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="password"
+              maxLength={4}
+              value={newPin}
+              onChange={(e) => setNewPin(e.target.value)}
+              placeholder="4 digit angka baru"
+              className="flex-1 px-4 py-2 border-2 border-gray-200 rounded-xl text-xs font-bold focus:border-gempurple focus:outline-none"
+            />
             <button
-              onClick={handleExportData}
-              className="w-full py-3 bg-gemgreen hover:bg-emerald-600 text-white font-black rounded-2xl text-xs shadow-md transition-all flex items-center justify-center gap-2 gem-btn-press"
+              type="submit"
+              className="px-4 py-2 bg-gempurple hover:bg-purple-700 text-white font-black text-xs rounded-xl shadow-sm transition-colors"
             >
-              <Download className="w-4 h-4" /> Unduh Cadangan Data Anak (.JSON)
+              Simpan PIN
             </button>
           </div>
-        </div>
+          {pinMessage && (
+            <span className="text-[11px] font-bold text-emerald-600 block">{pinMessage}</span>
+          )}
+        </form>
       </div>
     </div>
   );
